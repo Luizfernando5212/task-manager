@@ -1,33 +1,35 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+let mongoose = require('mongoose');
+let bcrypt = require('bcrypt');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 const MAX_LOGIN_ATTEMPTS = 6;
 const LOCK_TIME = 2 * 60 * 60 * 1000;
 
 
 
-var UserSchema = new Schema(
+let UserSchema = new Schema(
     {
         username: { type: String, trim: true, index: {
             unique: true,
             partialFilterExpression: {username: {$type: "string"}}
         } },
         password: { type: String, },
+        email: { type: String, required: true },
         phone: { type: String, required: true, index: {
             unique: true,
             partialFilterExpression: {phone: {$type: "string"}}
         }},
         creationDate: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
+        department: { type: Schema.Types.ObjectId, ref: 'Department' },
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }
     }
 );
 
 // UserSchema.pre('save', function (next) {
-//     var user = this;
+//     let user = this;
 //     if (user.password) {
 //         if (!user.isModified('password'))
 //             return next();
