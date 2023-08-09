@@ -7,7 +7,7 @@ let CompanySchema = new Schema(
             unique: true,
             partialFilterExpression: {phone: {$type: "string"}}
         }},
-        creationDate: { type: Date, required: true, default: Date.now },
+        createdAt: { type: Date, required: true, default: Date.now },
         // address: { type: String, required: true },
         description: { type: String, required: true },
         category: { type: String, required: true },
