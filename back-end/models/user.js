@@ -20,7 +20,7 @@ let UserSchema = new Schema(
             unique: true,
             partialFilterExpression: {phone: {$type: "string"}}
         }},
-        creationDate: { type: Date, required: true, default: Date.now },
+        createdAt: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
         department: { type: Schema.Types.ObjectId, ref: 'Department' },
         // loginAttempts: { type: Number, required: true, default: 0 },
