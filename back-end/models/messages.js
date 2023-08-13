@@ -8,7 +8,7 @@ let MessageSchema = new Schema(
         receiver: { type: Schema.Types.ObjectId, required: true , ref: 'User'},
         message: { type: String, required: true },
         createdAt: { type: Date, required: true, default: Date.now },
-        systemMessage: { type: Boolean, required: true, default: false },
+        // systemMessage: { type: Boolean, required: true, default: false },
         status: { typoe: String, required: true, default: 'sent' },
     }
 );

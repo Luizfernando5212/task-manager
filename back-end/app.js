@@ -10,11 +10,13 @@ const conn = require('./connection/db');
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
-let messagesRouter = require('./routes/message')
+let messagesRouter = require('./routes/message');
 
 
 let app = express();
-let expressWs = require('express-ws')
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+// let expressWs = require('express-ws')(app);
 
 
 const PORT = process.env.PORT || 3000
@@ -29,6 +31,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+// passing socket to router
+app.use((req, res, next) => {
+  req.io = io;
+  return next();
+})
+
 // Routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -39,6 +47,10 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+io.on('connection', () =>{
+  console.log('a user is connected')
+})
+
 // error handler
 conn().then(()=> {
   app.listen(PORT, () => {
@@ -46,5 +58,31 @@ conn().then(()=> {
   })
 })
 
+
+// io.on('connection', (socket) => { // socket object may be used to send specific messages to the new connected client
+//   console.log('new client connected');
+//   socket.emit('connection', null);
+//   socket.on('channel-join', id => {
+//       console.log('channel join', id);
+//       STATIC_CHANNELS.forEach(c => {
+//           if (c.id === id) {
+//               if (c.sockets.indexOf(socket.id) == (-1)) {
+//                   c.sockets.push(socket.id);
+//                   c.participants++;
+//                   io.emit('channel', c);
+//               }
+//           } else {
+//               let index = c.sockets.indexOf(socket.id);
+//               if (index != (-1)) {
+//                   c.sockets.splice(index, 1);
+//                   c.participants--;
+//                   io.emit('channel', c);
+//               }
+//           }
+//       });
+
+//       return id;
+//   })
+// });
 
 module.exports = app;

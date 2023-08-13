@@ -1,7 +1,15 @@
 const service = require('../service/messageService');
 
 const messageController = {
-    messagesById: async (req, res) => {
-        // service.
-    }
+    messagesByUserId: async (req, res) => {
+        service.getMessagesByUserId(req, res);
+    },
+    postMessage: async (req, res) => {
+        service.insertMessage(req, res);
+
+    },
+    updateMessage: async (req, res) => {
+        service.updateMessage(req, res);
+    },
+
 }
