@@ -2,7 +2,7 @@ let Schema = mongoose.Schema;
 
 let GroupSchema = new Schema(
     {
-        users: { type: String, required: true },
+        users: { type: Array, required: true },
     }
 );
 

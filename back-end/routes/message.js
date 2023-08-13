@@ -7,13 +7,14 @@ router.get('/', function(req, res, next) {
 });
 
 // Individual messages
-router.get('/{userId}', messageController.messagesByUserId(req, res));
+router.get('/:userId', messageController.messagesByUserId(req, res));
+router.get('/:receiver/:sender')
 router.post('/', messageController.postMessage(req, res));
-router.put('/')
+router.put('/:userId', messageController.updateMessage(req, res));
 
 // Group messages
-router.get('/group/{id}', messageController.groupMessageById(req, res));
-router.post('/group', messageController.postGroupMessage(req, res));
+router.get('/group/:id', groupMessageController.groupMessageById(req, res));
+router.post('/group', goupMessageController.postGroupMessage(req, res));
 
 
 module.exports = router;
