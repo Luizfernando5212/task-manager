@@ -4,40 +4,46 @@ import './chat.scss';
 import MessagesPanel from './MessagesPanel';
 import socketClient from "socket.io-client";
 const SERVER = "http://127.0.0.1:8080";
+const socket = socketClient(SERVER);
 
 const Chat = (props) => {
     const [ channels, setChannels ] = useState([]);
-    const [ socket, setSocket ] = useState(null);
-    const [ channel, setChannel ] = useState('');
+    const [ channel, setChannel ] = useState({});
     const [ id, setId ] = useState('');
+    const [, setState] = useState(false);
+
 
 
     useEffect(() => {
-        const configureSocket = () => {
-            let socket = socketClient(SERVER);
-            socket.on('connection', () => {
-                console.log('connected with the back end')
-            });
-            socket.on('message', message => {
-                console.log(message)
-                let newChannel = channel;
-                console.log(channel)
-                newChannel.messages.push()
-                setChannel(newChannel);
-            });
-            setSocket(socket);
-        }
-        configureSocket();
-    }, [channel])
+        socket.off('connection');
+        socket.on('connection', () => {
+            console.log('connected with the back end')
+        });
+        socket.off('message');
+        socket.on('message', message => {
+            handleMessageReceived(message);
+        });
+        return () => socket.off('connection')
+    }, [])
 
     useEffect(() => {
         loadChannels();
     }, [id]);
 
-    
+    const handleMessageReceived = async (message) => {
+        console.log(message)
+        setChannel(prevChannel => ({
+            ...prevChannel,
+            messages: [...prevChannel.messages, message]
+        }));
+        console.log(channel)
+        setState(prevState => !prevState);
+
+    }
+
 
     const loadChannels = async () => {
-        let list = [];
+        // let list = [];
         let options = {
             method: 'GET',
             headers: {
@@ -46,7 +52,7 @@ const Chat = (props) => {
         };
         let channels = await fetch(`http://localhost:3000/user/channels/${id}`, options);
         let data = await channels.json();
-        console.log(data)
+        // console.log(data)
         if(Array.isArray(data))
             setChannels(data);
         else
@@ -74,7 +80,7 @@ const Chat = (props) => {
         // });
     }
 
-    const handleSendMessage = (channel_id, text) => {
+    const handleSendMessage = async (channel_id, text) => {
 
         let message = {
             sender: id,
@@ -89,7 +95,7 @@ const Chat = (props) => {
             },
             body: JSON.stringify(message)
         };
-        /* const response = */ fetch('http://localhost:3000/message', options);
+        /* const response = */ await fetch('http://localhost:3000/message', options);
         // socket.emit('send-message', { channel_id, text, sender: socket.id, id: Date.now() });
     }
 
