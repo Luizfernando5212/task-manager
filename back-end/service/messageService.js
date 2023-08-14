@@ -60,9 +60,9 @@ exports.insertMessage = async (req, res) => {
         // console.log(req)
 
         const response = await Message.create(message);
-        console.log(response)
-        req.io.emit('message', response)
-        res.json(response);
+        const populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
+        req.io.emit('message', populatedRepsonse)
+        res.json(populatedRepsonse);
     } catch (err) {
         console.log(err);
     }

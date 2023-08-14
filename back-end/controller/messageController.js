@@ -17,6 +17,9 @@ const messageController = {
     updateMessage: async (req, res) => {
         service.updateMessage(req, res);
     },
+    deleteMessage: async (req, res) => {
+        service.deleteMessage(req, res);
+    }
 
 }
 

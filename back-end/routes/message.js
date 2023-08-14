@@ -12,6 +12,7 @@ router.get('/:sender/:receiver', messageController.messagesByReceiverSender)
 router.get('/channels/:id', messageController.messagesByChannelId);
 router.post('/', messageController.postMessage);
 router.put('/:userId', messageController.updateMessage);
+router.delete('/:id', messageController.deleteMessage);
 
 // Group messages
 // router.get('/group/:id', groupMessageController.groupMessageById);
