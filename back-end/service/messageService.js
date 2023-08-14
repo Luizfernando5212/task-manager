@@ -1,4 +1,5 @@
 const Message = require('../models/messages')
+// const GroupMessage = require('../models/groupMessages');
 
 exports.getMessagesByUserId = async (req, res) => {
     try {
@@ -11,10 +12,27 @@ exports.getMessagesByUserId = async (req, res) => {
 
 exports.getMessagesByReceiverSender = async (req, res) => {
     try {
-        const messages = await Message.find({ 
-            receiver: req.params.receiver, 
-            sender: req.params.sender 
-        })
+        const messages = await Message.find({
+            $or: [{
+                receiver: req.params.receiver,
+                sender: req.params.sender
+            }, {
+                receiver: req.params.sender,
+                sender: req.params.receiver
+            }]
+        }).populate('sender').populate('receiver').sort({ _id: 1 });
+
+        // console.log(messages)
+        res.json(messages);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.getMessagesByChannelId = async (req, res) => {
+    try {
+        const messages = await Message.find({ sender: req.params.id }).distinct('receiver').populate('receiver');
+        console.log(messages)
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -34,13 +52,16 @@ exports.getMessagesByReceiverSender = async (req, res) => {
 exports.insertMessage = async (req, res) => {
     try {
         let message = {
-            sender: req.body.name,
+            sender: req.body.sender,
             receiver: req.body.receiver,
             message: req.body.message,
         }
+        console.log(message)
+        // console.log(req)
 
         const response = await Message.create(message);
-        req.io.emit('message', response.data)
+        console.log(response)
+        req.io.emit('message', response)
         res.json(response);
     } catch (err) {
         console.log(err);

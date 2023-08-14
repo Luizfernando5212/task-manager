@@ -1,3 +1,5 @@
+let mongoose = require('mongoose');
+
 let Schema = mongoose.Schema;
 
 // const autoIncrementModelID = require('./counter');
@@ -23,4 +25,4 @@ let GroupMessageSchema = new Schema(
 
 // GroupSchema.index({ sender: 1, receiver: 1 }, { unique: true });
 
-module.exports = mongoose.model('GroupMessage', GroupSchema);
+module.exports = mongoose.model('GroupMessage', GroupMessageSchema);

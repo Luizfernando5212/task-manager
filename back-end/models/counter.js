@@ -3,8 +3,7 @@ var Schema = mongoose.Schema;
 
 const CounterSchema = new Schema(
   {
-  _id: {type: String, required: true},
-  seq: { type: Number, default: 0 }
+    seq: { type: Number, default: 0 }
   }
 );
 
@@ -17,8 +16,8 @@ const autoIncrementModelID = function (modelName, doc, next) {
     modelName,                           // The ID to find for in counters model
     { $inc: { seq: 1 } },                // The update
     { new: true, upsert: true },         // The options
-    function(error, counter) {           // The callback
-      if(error) return next(error);
+    function (error, counter) {           // The callback
+      if (error) return next(error);
 
       doc.id = counter.seq;
       next();

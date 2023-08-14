@@ -1,20 +1,21 @@
-const router = require('express').router();
+const router = require('express').Router();
 const messageController = require('../controller/messageController');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+// router.get('/', function(req, res, next) {
+//   res.send('respond with a resource');
+// });
 
 // Individual messages
-router.get('/:userId', messageController.messagesByUserId(req, res));
-router.get('/:receiver/:sender')
-router.post('/', messageController.postMessage(req, res));
-router.put('/:userId', messageController.updateMessage(req, res));
+router.get('/:userId', messageController.messagesByUserId);
+router.get('/:sender/:receiver', messageController.messagesByReceiverSender)
+router.get('/channels/:id', messageController.messagesByChannelId);
+router.post('/', messageController.postMessage);
+router.put('/:userId', messageController.updateMessage);
 
 // Group messages
-router.get('/group/:id', groupMessageController.groupMessageById(req, res));
-router.post('/group', goupMessageController.postGroupMessage(req, res));
+// router.get('/group/:id', groupMessageController.groupMessageById);
+// router.post('/group', goupMessageController.postGroupMessage);
 
 
 module.exports = router;

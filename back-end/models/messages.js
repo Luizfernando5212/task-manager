@@ -9,7 +9,7 @@ let MessageSchema = new Schema(
         message: { type: String, required: true },
         createdAt: { type: Date, required: true, default: Date.now },
         // systemMessage: { type: Boolean, required: true, default: false },
-        status: { typoe: String, required: true, default: 'sent' },
+        status: { type: String, required: true, default: 'sent' },
     }
 );
 
