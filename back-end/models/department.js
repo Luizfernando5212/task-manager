@@ -1,4 +1,6 @@
-let Schema = mongoose.Schma;
+let mongoose = require('mongoose');
+
+let Schema = mongoose.Schema;
 
 let DepartmentSchema = new Schema(
     {

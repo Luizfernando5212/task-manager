@@ -16,7 +16,7 @@ let UserSchema = new Schema(
         } },
         password: { type: String, },
         email: { type: String, required: true },
-        phone: { type: String, required: true, index: {
+        phone: { type: String, index: {
             unique: true,
             partialFilterExpression: {phone: {$type: "string"}}
         }},

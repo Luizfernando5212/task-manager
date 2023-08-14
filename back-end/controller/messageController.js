@@ -4,6 +4,12 @@ const messageController = {
     messagesByUserId: async (req, res) => {
         service.getMessagesByUserId(req, res);
     },
+    messagesByReceiverSender: async (req, res) => {
+        service.getMessagesByReceiverSender(req, res);
+    },
+    messagesByChannelId: async (req, res) => {
+        service.getMessagesByChannelId(req, res);
+    },
     postMessage: async (req, res) => {
         service.insertMessage(req, res);
 
@@ -13,3 +19,5 @@ const messageController = {
     },
 
 }
+
+module.exports = messageController;

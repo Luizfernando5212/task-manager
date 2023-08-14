@@ -1,7 +1,10 @@
+let mongoose = require('mongoose');
+
 let Schema = mongoose.Schema;
 
 let GroupSchema = new Schema(
     {
+        name: { type: String, required: true, max: 100 },
         users: { type: Array, required: true },
     }
 );

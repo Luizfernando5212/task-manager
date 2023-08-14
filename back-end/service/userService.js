@@ -24,24 +24,39 @@ require('dotenv').config();
 //     }
 // }
 
-exports.getUserByPhone = async (req, res) => {
+exports.getUserById = async (req, res) => {
     // const phone = req.body;
-    const phone = req.params.phone;
+    // const id = req.params.phone;
 
     try {
-        const user = await User.findOne({ phone: phone });
+        const user = await User.findById(req.params.id);
 
         res.status(200).json(user);
     } catch (err) {
-        res.status(401).json({ message: 'Invalid phone number.' })
+        res.status(401).json({ message: 'Invalid id.' })
     }
 }
 
 exports.getUsers = async (req, res) => {
     try {
         const users = await User.find();
-        console.log(users)
+        // console.log(users)
         res.json(users);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.getChannelsByUserId = async (req, res) => {
+    try {
+        // const user = await User.findById(req.params.id);
+        const channels = await User.find({ 
+            _id: { '$ne': req.params.id },
+            /*department: user.department*/
+        });
+
+        res.json(channels);
+
     } catch (err) {
         console.log(err);
     }
@@ -61,11 +76,10 @@ exports.newUser = async (req, res) => {
             const response = await user.save();
             res.json(response);
         } else {
-            const { name, phone, whatsapp } = req.body;
+            const { email, name } = req.body;
             var user = new User({
                 name: name,
-                phone: phone,
-                whatsapp: whatsapp
+                email: email,
             })
 
             const response = await user.save();
@@ -79,15 +93,14 @@ exports.newUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const user = {
-            nome: req.body.nome,
-            whatsapp: req.body.whatsapp
+            nome: req.body.nome
         }
         console.log(user)
-        const oldUser = await User.findOne({ phone: req.params.phone });
+        const oldUser = await User.findById(req.params.id);
 
         oldUser.nome = user.nome;
 
-        const response = await User.findOneAndUpdate({ phone: req.params.phone }, oldUser);
+        const response = await User.findByIdAndUpdate(req.params.id, oldUser);
 
         res.json(response);
 
@@ -98,9 +111,9 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        console.log(req.params.phone);
-        const response = await User.findOneAndDelete({ phone: req.params.phone });
-        console.log(response)
+        // console.log(req.params.phone);
+        const response = await User.findByIdAndDelete(req.params.id);
+        // console.log(response)
         res.json(response);
     } catch (err) {
         console.log(err);

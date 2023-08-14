@@ -5,7 +5,6 @@ let cors = require('cors');
 // let bodyParser = require('body-parser');
 let path = require('path');
 
-
 const conn = require('./connection/db');
 
 let indexRouter = require('./routes/index');
@@ -15,15 +14,22 @@ let messagesRouter = require('./routes/message');
 
 let app = express();
 let http = require('http').Server(app);
-let io = require('socket.io')(http);
+let io = require('socket.io')(http, {
+  cors: {
+    origin: '*',
+  }
+});
 // let expressWs = require('express-ws')(app);
 
+http.listen(8080, () => {
+  console.log(`listening on *:8080`);
+});
 
 const PORT = process.env.PORT || 3000
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,22 +45,23 @@ app.use((req, res, next) => {
 
 // Routers
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/echo', messagesRouter);
+app.use('/user', usersRouter);
+app.use('/message', messagesRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-io.on('connection', () =>{
-  console.log('a user is connected')
-})
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
 // error handler
 conn().then(()=> {
   app.listen(PORT, () => {
       console.log('listening for requests')
+  })
+
+  io.on('connection', (socket) =>{
+    console.log('a user is connected')
+    socket.emit('connection', null);
   })
 })
 
