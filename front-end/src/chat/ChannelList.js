@@ -4,8 +4,6 @@ import Channel from './Channel';
 const ChannelList = (props) => {
     const { channels, onSelectChannel } = props;
 
-    
-
     const handleClick = (id) => {
         onSelectChannel(id);
     };

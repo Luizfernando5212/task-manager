@@ -8,7 +8,7 @@ let GroupMessageSchema = new Schema(
     {
         groupId: { type: Schema.Types.ObjectId, unique: true, required: true, ref: 'Group' },
         // messageId: { type: Number, required: true, unique: true },
-        userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+        sender: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
         message: { type: String, required: true },
         createdAt: { type: Date, required: true, default: Date.now },
     }

@@ -22,7 +22,7 @@ let UserSchema = new Schema(
         }},
         createdAt: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
-        department: { type: Schema.Types.ObjectId, ref: 'Department' },
+        project: { type: Schema.Types.ObjectId, ref: 'Project' },
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }
     }
