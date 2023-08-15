@@ -1,6 +1,6 @@
 const service = require("../service/userService");
 
-userController = {
+const userController = {
 
     insertUser: async (req, res) => {
         service.newUser(req, res);
