@@ -1,4 +1,5 @@
 const Message = require('../models/messages')
+const factory = require('../DTO/messageDTO');
 // const GroupMessage = require('../models/groupMessages');
 
 exports.getMessagesByUserId = async (req, res) => {
@@ -21,6 +22,10 @@ exports.getMessagesByReceiverSender = async (req, res) => {
                 sender: req.params.receiver
             }]
         }).populate('sender').populate('receiver').sort({ _id: 1 });
+
+        // for (let i = 0; i < messages.length; i++) {
+        //     messages[i] = factory(message[i]);
+        // }
 
         // console.log(messages)
         res.json(messages);
@@ -60,7 +65,8 @@ exports.insertMessage = async (req, res) => {
         // console.log(req)
 
         const response = await Message.create(message);
-        const populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
+        let populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
+        populatedRepsonse = factory(populatedRepsonse);
         req.io.emit('message', populatedRepsonse)
         res.json(populatedRepsonse);
     } catch (err) {
