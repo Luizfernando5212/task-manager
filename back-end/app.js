@@ -10,6 +10,9 @@ const conn = require('./connection/db');
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let messagesRouter = require('./routes/message');
+let commentsRouter = require('./routes/comment');
+let companyRouter = require('./routes/company');
+let departmentRouter = require('./routes/department');
 
 
 let app = express();
@@ -47,6 +50,9 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/message', messagesRouter);
+app.use('/comment', commentsRouter);
+app.use('/company', companyRouter);
+app.use('/department', departmentRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
