@@ -10,6 +10,7 @@ const Chat = (props) => {
     const [ channels, setChannels ] = useState([]);
     const [ channel, setChannel ] = useState({});
     const [ id, setId ] = useState('');
+    const [ roomId, setRoomId ] = useState('');
     const [, setState] = useState(false);
 
 
@@ -30,12 +31,16 @@ const Chat = (props) => {
         loadChannels();
     }, [id]);
 
-    const handleMessageReceived = async (message) => {
-        console.log(message)
-        setChannel(prevChannel => ({
-            ...prevChannel,
-            messages: [...prevChannel.messages, message]
-        }));
+    const handleMessageReceived = async (data) => {
+        console.log(data.message)
+        if (data.sender == channel._id) {
+            setChannel(prevChannel => ({
+                ...prevChannel,
+                messages: [...prevChannel.messages, data.message]
+            }));
+        } else {
+            console.log(`Mensagem do ${data.sender}`)
+        }
         console.log(channel)
         setState(prevState => !prevState);
 
@@ -70,11 +75,13 @@ const Chat = (props) => {
         let channel = channels.find(c => {
             return c._id === channelId;
         });
+        // let room = await fetch
         let messages = await fetch(`http://localhost:3000/message/${id}/${channel._id}`, options);
         let data = await messages.json();
         channel.messages = data;
         // console.log(messages)
         setChannel(channel);
+        socket.emit('joinRoom', channel._id);
 
         // socket.emit('channel-join', id, ack => {
         // });
@@ -101,6 +108,7 @@ const Chat = (props) => {
 
     const handleInput = e => {
         setId(e.target.value);
+        socket.emit('joinRoom', id);
     };
 
     return (

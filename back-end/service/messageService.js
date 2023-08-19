@@ -23,11 +23,12 @@ exports.getMessagesByReceiverSender = async (req, res) => {
             }]
         }).populate('sender').populate('receiver').sort({ _id: 1 });
 
-        // for (let i = 0; i < messages.length; i++) {
-        //     messages[i] = factory(message[i]);
-        // }
-
         // console.log(messages)
+        for (let i = 0; i < messages.length; i++) {
+            messages[i] = factory(messages[i]);
+        }
+
+        console.log(messages)
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -67,7 +68,10 @@ exports.insertMessage = async (req, res) => {
         const response = await Message.create(message);
         let populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
         populatedRepsonse = factory(populatedRepsonse);
-        req.io.emit('message', populatedRepsonse)
+        req.io.emit('message', { 
+            message: populatedRepsonse, 
+            sender: message.sender 
+        })
         res.json(populatedRepsonse);
     } catch (err) {
         console.log(err);
