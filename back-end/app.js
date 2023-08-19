@@ -14,6 +14,7 @@ let commentsRouter = require('./routes/comment');
 let companyRouter = require('./routes/company');
 let departmentRouter = require('./routes/department');
 
+const Room = require('./models/room');
 
 let app = express();
 let http = require('http').Server(app);
@@ -54,21 +55,53 @@ app.use('/comment', commentsRouter);
 app.use('/company', companyRouter);
 app.use('/department', departmentRouter);
 
+app.get('/room', async (req, res) => {
+  let room = await Room.create({ roomId: 1 });
+  res.json(room);
+});
+
+app.get('/rooms', async (req, res) => {
+  let rooms = await Room.find();
+  res.json(rooms);
+});
+
+
+app.delete('/room/:id', async (req, res) => {
+  try {
+    await Room.findByIdAndDelete(req.params.id);
+    res.json('deleted');
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));
 // });
 
 // error handler
-conn().then(()=> {
+conn().then(() => {
   app.listen(PORT, () => {
-      console.log('listening for requests')
+    console.log('listening for requests')
   })
 
-  io.on('connection', (socket) =>{
+  io.on('connection', (socket) => {
     console.log('a user is connected')
     socket.emit('connection', null);
-  })
+
+    socket.on('joinRoom', id => {
+      let room = 'Room-' + id
+      socket.join(room)
+      console.log('joined rooms', room)
+    });
+
+    socket.on('leaveRoom', id => {
+      let room = 'Room-' + id
+      socket.leave(room)
+      console.log('left rooms', room)
+    })
+  });
 })
 
 

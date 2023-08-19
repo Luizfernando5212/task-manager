@@ -18,7 +18,7 @@ const MessagesPanel = (props) => {
     let list = <div className="no-content-message">There is no messages to show</div>;
 
     if (props.channel && props.channel.messages) {
-        list = props.channel.messages.map(m => <Message key={m._id} id={m.sender._id} senderName={m.sender.name} text={m.message} />);
+        list = props.channel.messages.map(m => <Message key={m.id} id={m.sender} senderName={m.sender} text={m.message} />);
     }
 
     // console.log(list)
