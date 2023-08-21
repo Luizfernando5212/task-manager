@@ -93,13 +93,13 @@ conn().then(() => {
     socket.on('joinRoom', id => {
       let room = 'Room-' + id
       socket.join(room)
-      console.log('joined rooms', room)
+      console.log('joined room', room)
     });
 
     socket.on('leaveRoom', id => {
       let room = 'Room-' + id
       socket.leave(room)
-      console.log('left rooms', room)
+      console.log('left room', room)
     })
   });
 })

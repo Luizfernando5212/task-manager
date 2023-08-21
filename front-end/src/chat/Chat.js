@@ -10,42 +10,8 @@ const Chat = (props) => {
     const [ channels, setChannels ] = useState([]);
     const [ channel, setChannel ] = useState({});
     const [ id, setId ] = useState('');
-    const [ roomId, setRoomId ] = useState('');
+    // const [ roomId, setRoomId ] = useState('');
     const [, setState] = useState(false);
-
-
-
-    useEffect(() => {
-        socket.off('connection');
-        socket.on('connection', () => {
-            console.log('connected with the back end')
-        });
-        socket.off('message');
-        socket.on('message', message => {
-            handleMessageReceived(message);
-        });
-        return () => socket.off('connection')
-    }, [])
-
-    useEffect(() => {
-        loadChannels();
-    }, [id]);
-
-    const handleMessageReceived = async (data) => {
-        console.log(data.message)
-        if (data.sender == channel._id) {
-            setChannel(prevChannel => ({
-                ...prevChannel,
-                messages: [...prevChannel.messages, data.message]
-            }));
-        } else {
-            console.log(`Mensagem do ${data.sender}`)
-        }
-        console.log(channel)
-        setState(prevState => !prevState);
-
-    }
-
 
     const loadChannels = async () => {
         // let list = [];
@@ -64,7 +30,55 @@ const Chat = (props) => {
             setChannels([]);
     }
 
+    useEffect(() => {
+        socket.on('message', function(message) {
+            handleMessageReceived(message, channel);
+        });
+
+        return () => {
+            socket.off('message');
+        };
+    }, [channel])
+
+    useEffect(() => {
+        const handleConnection = () => {
+            console.log('connected with the back end');
+        };
+        socket.on('connection', handleConnection);
+        return () => {
+            socket.off('connection', handleConnection);
+        };
+    }, [])
+
+    useEffect(() => {
+        loadChannels();
+    }, [id, loadChannels]);
+
+    const handleMessageReceived = async (data, currentChannel) => {
+        console.log(data)
+        console.log(currentChannel)
+        console.log(data.sender)
+        if (data.sender === currentChannel._id || data.receiver === currentChannel._id) {
+            setChannel(prevChannel => ({
+                ...prevChannel,
+                messages: [...prevChannel.messages, data.message]
+            }));
+        } else {
+            console.log(`Mensagem do ${data.sender}`)
+        }
+        // console.log(channel)
+        setState(prevState => !prevState);
+
+    }
+
+
+    
+
     const handleChannelSelect = async channelId => {
+        console.log(channel);
+        if (channel._id) {
+            socket.emit('leaveRoom', channel._id);
+        }
         let options = {
             method: 'GET',
             headers: {
@@ -72,16 +86,16 @@ const Chat = (props) => {
             }
         };
 
-        let channel = channels.find(c => {
+        let localChannel = channels.find(c => {
             return c._id === channelId;
         });
         // let room = await fetch
-        let messages = await fetch(`http://localhost:3000/message/${id}/${channel._id}`, options);
+        console.log(id)
+        let messages = await fetch(`http://localhost:3000/message/${id}/${localChannel._id}`, options);
         let data = await messages.json();
-        channel.messages = data;
-        // console.log(messages)
-        setChannel(channel);
-        socket.emit('joinRoom', channel._id);
+        localChannel.messages = data;
+        setChannel(localChannel);
+        socket.emit('joinRoom', localChannel._id);
 
         // socket.emit('channel-join', id, ack => {
         // });
@@ -108,7 +122,8 @@ const Chat = (props) => {
 
     const handleInput = e => {
         setId(e.target.value);
-        socket.emit('joinRoom', id);
+        console.log(e.target.value)
+        socket.emit('joinRoom', e.target.value);
     };
 
     return (

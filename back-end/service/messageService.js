@@ -28,7 +28,7 @@ exports.getMessagesByReceiverSender = async (req, res) => {
             messages[i] = factory(messages[i]);
         }
 
-        console.log(messages)
+        // console.log(messages)
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -62,15 +62,20 @@ exports.insertMessage = async (req, res) => {
             receiver: req.body.receiver,
             message: req.body.message,
         }
-        console.log(message)
+        // console.log(message)
         // console.log(req)
+
+        let roomSender =  'Room-' + message.sender;
+        let roomReceiver =  'Room-' + message.receiver;
 
         const response = await Message.create(message);
         let populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
         populatedRepsonse = factory(populatedRepsonse);
-        req.io.emit('message', { 
+        // console.log(roomSender, roomReceiver)
+        req.io.to(roomSender).to(roomReceiver).emit('message', { 
             message: populatedRepsonse, 
-            sender: message.sender 
+            sender: message.sender,
+            receiver: message.receiver
         })
         res.json(populatedRepsonse);
     } catch (err) {
