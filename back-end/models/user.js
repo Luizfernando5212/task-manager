@@ -23,6 +23,7 @@ let UserSchema = new Schema(
         createdAt: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
         project: { type: Schema.Types.ObjectId, ref: 'Project' },
+        role: { type: String, enum: ['admin', 'user'], default: 'user'}
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }
     }

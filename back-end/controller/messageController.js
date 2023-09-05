@@ -12,7 +12,6 @@ const messageController = {
     },
     postMessage: async (req, res) => {
         service.insertMessage(req, res);
-
     },
     updateMessage: async (req, res) => {
         service.updateMessage(req, res);

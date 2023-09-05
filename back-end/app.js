@@ -13,6 +13,12 @@ let messagesRouter = require('./routes/message');
 let commentsRouter = require('./routes/comment');
 let companyRouter = require('./routes/company');
 let departmentRouter = require('./routes/department');
+let groupRouter = require('./routes/group');
+// let groupMessageRouter = require('./routes/groupMessage');
+let projectRouter = require('./routes/project');
+let taskRouter = require('./routes/task');
+
+
 
 const Room = require('./models/room');
 
