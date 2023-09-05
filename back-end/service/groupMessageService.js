@@ -4,7 +4,7 @@ const GroupMessage = require('../models/groupMessage')
 
 exports.getMessagesByUserId = async (req, res) => {
     try {
-        const messages = await Message.find({ receiver: req.params.userId });
+        const messages = await GroupMessage.find({ receiver: req.params.userId });
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -13,7 +13,7 @@ exports.getMessagesByUserId = async (req, res) => {
 
 exports.getMessagesByReceiverSender = async (req, res) => {
     try {
-        const messages = await Message.find({
+        const messages = await GroupMessage.find({
             $or: [{
                 receiver: req.params.receiver,
                 sender: req.params.sender
@@ -32,7 +32,7 @@ exports.getMessagesByReceiverSender = async (req, res) => {
 
 exports.getMessagesByChannelId = async (req, res) => {
     try {
-        const messages = await Message.find({ sender: req.params.id }).distinct('receiver').populate('receiver');
+        const messages = await GroupMessage.find({ sender: req.params.id }).distinct('receiver').populate('receiver');
         console.log(messages)
         res.json(messages);
     } catch (err) {
@@ -60,8 +60,8 @@ exports.insertMessage = async (req, res) => {
         console.log(message)
         // console.log(req)
 
-        const response = await Message.create(message);
-        const populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
+        const response = await GroupMessage.create(message);
+        const populatedRepsonse = await GroupMessage.findById(response._id).populate('sender').populate('receiver');
         req.io.emit('message', populatedRepsonse)
         res.json(populatedRepsonse);
     } catch (err) {
@@ -78,7 +78,7 @@ exports.updateMessage = async (req, res) => {
         message.status = req.body.status;
 
 
-        const response = await Message.findByIdAndUpdate(req.params.id, message);
+        const response = await GroupMessage.findByIdAndUpdate(req.params.id, message);
 
         res.json(response);
 
@@ -89,7 +89,7 @@ exports.updateMessage = async (req, res) => {
 
 exports.deleteMessage = async (req, res) => {
     try {
-        const response = await Message.findByIdAndDelete(req.params.id);
+        const response = await GroupMessage.findByIdAndDelete(req.params.id);
         res.json(response);
     } catch (err) {
         console.log(err);
