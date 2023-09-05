@@ -47,17 +47,19 @@ const Chat = (props) => {
         socket.on('connection', handleConnection);
         return () => {
             socket.off('connection', handleConnection);
+            socket.disconnect()
         };
     }, [])
 
     useEffect(() => {
-        loadChannels();
-    }, [id, loadChannels]);
+        if(id)
+            loadChannels();
+    }, [id]);
 
     const handleMessageReceived = async (data, currentChannel) => {
-        console.log(data)
-        console.log(currentChannel)
-        console.log(data.sender)
+        // console.log(data)
+        // console.log(currentChannel)
+        // console.log(data.sender)
         if (data.sender === currentChannel._id || data.receiver === currentChannel._id) {
             setChannel(prevChannel => ({
                 ...prevChannel,
@@ -69,10 +71,7 @@ const Chat = (props) => {
         // console.log(channel)
         setState(prevState => !prevState);
 
-    }
-
-
-    
+    }    
 
     const handleChannelSelect = async channelId => {
         console.log(channel);
