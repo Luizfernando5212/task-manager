@@ -18,8 +18,9 @@ let UserSchema = new Schema(
         email: { type: String, required: true },
         createdAt: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
-        project: { type: Schema.Types.ObjectId, ref: 'Project' },
-        role: { type: String, enum: ['admin', 'user'], default: 'user'}
+        role: { type: String, enum: ['Manager', 'Developer', 'Assistant', 'QA tester']},
+        screenRole: { type: String, enum: ['admin', 'user'], default: 'user'}
+
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }
     }
