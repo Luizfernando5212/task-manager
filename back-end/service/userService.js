@@ -1,5 +1,19 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const { OAuth2Client } = require('google-auth-library');
+
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+let REDIRECT_URI = process.env.REDIRECT_URI;
+let refreshToken = '1//0hhpn3xUN7MiiCgYIARAAGBESNwF-L9IrFz12wlvpcR-MWOoJ3AJqfbQ7Zybt0reNzinJc_jAxqNmXbs5dMeEwmLeQ1MebQQm1-E';  // Obtido após a autorização
+let accessToken = process.env.ACCESS_TOKEN;
+let expiryDate;
+
+const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: refreshToken });
+
+
 require('dotenv').config();
 
 // exports.verifyUser = async (req, res) => {
@@ -50,7 +64,7 @@ exports.getUsers = async (req, res) => {
 exports.getChannelsByUserId = async (req, res) => {
     try {
         // const user = await User.findById(req.params.id);
-        const channels = await User.find({ 
+        const channels = await User.find({
             _id: { '$ne': req.params.id },
             /*department: user.department*/
         });
@@ -72,14 +86,14 @@ exports.newUser = async (req, res) => {
                 phone: phone,
                 name: name
             })
-
             const response = await user.save();
             res.json(response);
         } else {
-            const { email, name } = req.body;
+            const { email, name, role } = req.body;
             var user = new User({
                 name: name,
                 email: email,
+                role: role
             })
 
             const response = await user.save();
@@ -92,17 +106,18 @@ exports.newUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const user = {
-            nome: req.body.nome
-        }
-        console.log(user)
         const oldUser = await User.findById(req.params.id);
 
-        oldUser.nome = user.nome;
+        oldUser.username = req.body.username || oldUser.username;
+        oldUser.email = req.body.email || oldUser.email;
+        oldUser.name = req.body.name || oldUser.name;
+        oldUser.role = req.body.role || oldUser.role;
+
+        console.log(oldUser);
 
         const response = await User.findByIdAndUpdate(req.params.id, oldUser);
 
-        res.json(response);
+        res.json({ message: `User ${response.name} updated successfully` });
 
     } catch (err) {
         console.log(err);
@@ -115,6 +130,89 @@ exports.deleteUser = async (req, res) => {
         const response = await User.findByIdAndDelete(req.params.id);
         // console.log(response)
         res.json(response);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.passwordRecoveryEmail = async (req, res) => {
+    let user = await User.findOne({ email: req.body.email });
+
+    // const response = await oAuth2Client.getAccessToken();
+    // console.log(response);
+    // const accessToken = response.res.data.access_token;
+    // const expiry_date = response.res.data.expiry_date;
+
+    // console.log(accessToken)
+
+    try {
+        let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            type: "OAuth2",
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+        },
+    });
+
+        transporter.sendMail({
+            from: "luiz.5.2.1.luiz@gmail.com",
+            to: "luiz.5.2.1.luiz@gmail.com",
+            subject: "Reset Password",
+            html: `<h1>Change yor password through this Link</h1>
+                <p>localhost:3030/user/${user._id}/recovery</p>`,
+            auth: {
+                user: "luiz.5.2.1.luiz@gmail.com",
+                refreshToken: accessToken,
+                expires: expiryDate
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.passwordRecovery = async (req, res) => {
+    try {
+        let user = User.findById(req.params.id);
+        user.password = '1234';
+        const response = await User.findByIdAndUpdate(req.params.id, user);
+        res.json({
+            message: 'Password changed successfully'
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.oauth = async (req, res) => {
+    try {
+        console.log(req.query.code)
+        if (req.query.code) {
+            const getToken = async (code) => {
+                const { tokens } = await oAuth2Client.getToken(code);
+                console.log(tokens)
+                accessToken = tokens.access_token;
+                refreshToken = tokens.refresh_token;
+
+
+                console.log({
+                    accessToken: accessToken,
+                    regresh_token: refreshToken
+                })
+            };
+
+            getToken(req.query.code);
+        } else {
+            const authorizeUrl = oAuth2Client.generateAuthUrl({
+                access_type: 'offline',
+                scope: 'https://mail.google.com/', // Use os escopos apropriados
+            });
+
+            res.status(200).json({ url: authorizeUrl });
+        }
     } catch (err) {
         console.log(err);
     }

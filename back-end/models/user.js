@@ -14,12 +14,8 @@ let UserSchema = new Schema(
             unique: true,
             partialFilterExpression: {username: {$type: "string"}}
         } },
-        password: { type: String, },
+        password: { type: String, default: '1234'},
         email: { type: String, required: true },
-        phone: { type: String, index: {
-            unique: true,
-            partialFilterExpression: {phone: {$type: "string"}}
-        }},
         createdAt: { type: Date, required: true, default: Date.now },
         name: { type: String, default: ''},
         project: { type: Schema.Types.ObjectId, ref: 'Project' },

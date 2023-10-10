@@ -19,6 +19,15 @@ const userController = {
     },
     getChannelsByUserId: async (req, res) => {
         service.getChannelsByUserId(req, res);
+    },
+    recoveryEmail: async (req, res) => {
+        service.passwordRecoveryEmail(req, res);
+    },
+    recoveryPassword: async (req, res) => {
+        service.passwordRecovery(req, res);
+    },
+    oauth: async (req, res) => {
+        service.oauth(req, res);
     }
 
 }
