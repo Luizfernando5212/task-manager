@@ -11,8 +11,6 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let messagesRouter = require('./routes/message');
 let commentsRouter = require('./routes/comment');
-let companyRouter = require('./routes/company');
-let departmentRouter = require('./routes/department');
 let groupRouter = require('./routes/group');
 // let groupMessageRouter = require('./routes/groupMessage');
 let projectRouter = require('./routes/project');
@@ -58,8 +56,6 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/message', messagesRouter);
 app.use('/comment', commentsRouter);
-app.use('/company', companyRouter);
-app.use('/department', departmentRouter);
 
 app.get('/room', async (req, res) => {
   let room = await Room.create({ roomId: 1 });
