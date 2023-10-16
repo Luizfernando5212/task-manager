@@ -13,7 +13,14 @@ exports.getTaskById = async (req, res) => {
 
 exports.getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find();
+        let project = {};
+
+        if (req.query.project) {
+            project = { project: req.query.project };
+        }
+        const tasks = await Task.find(project)
+            .populate('assignee', '_id name role email')
+            .populate('creator', '_id name role email');
         // console.log(tasks)
         res.json(tasks);
     } catch (err) {
@@ -23,7 +30,7 @@ exports.getTasks = async (req, res) => {
 
 exports.getTasksByAssignee = async (req, res) => {
     try {
-        const tasks = await Task.find({ assignee: req.params.id }).populate('assignee');
+        const tasks = await Task.find({ assignee: req.params.id }).populate('assignee').populate('creator');
         // console.log(tasks)
         res.json(tasks);
     } catch (err) {
@@ -43,8 +50,8 @@ exports.insertTask = async (req, res) => {
                 creator: creator,
                 assignee: assignee
             });
-            
-            if (req.body.timeEstimate) 
+
+            if (req.body.timeEstimate)
                 task.timeEstimate = req.body.timeEstimate;
 
             const response = await task.save();
@@ -64,6 +71,7 @@ exports.updateTask = async (req, res) => {
         const oldTask = await Task.findById(req.params.id);
 
         oldTask.timeSpent = task.timeSpent;
+        oldTask.project = task.project;
 
         const response = await Task.findByIdAndUpdate(req.params.id, task);
 

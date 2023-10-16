@@ -1,5 +1,5 @@
 const Message = require('../models/messages')
-const factory = require('../DTO/messageDTO');
+const dto = require('../DTO/messageDTO');
 // const GroupMessage = require('../models/groupMessages');
 
 exports.getMessagesByUserId = async (req, res) => {
@@ -25,7 +25,7 @@ exports.getMessagesByReceiverSender = async (req, res) => {
 
         // console.log(messages)
         for (let i = 0; i < messages.length; i++) {
-            messages[i] = factory(messages[i]);
+            messages[i] = dto(messages[i]);
         }
 
         // console.log(messages)
@@ -70,7 +70,7 @@ exports.insertMessage = async (req, res) => {
 
         const response = await Message.create(message);
         let populatedRepsonse = await Message.findById(response._id).populate('sender').populate('receiver');
-        populatedRepsonse = factory(populatedRepsonse);
+        populatedRepsonse = dto(populatedRepsonse);
         // console.log(roomSender, roomReceiver)
         req.io.to(roomSender).to(roomReceiver).emit('message', { 
             message: populatedRepsonse, 

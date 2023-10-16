@@ -15,6 +15,9 @@ const taskController = {
     },
     deleteTask: async (req, res) => {
         service.deleteTask(req, res);
+    },
+    getTaskByProjectId: async (req, res) => {
+        service.getTaskByProjectId(req, res);
     }
 }
 
