@@ -9,7 +9,7 @@ let TaskSchema = new Schema(
         project: { type: Schema.Types.ObjectId, required: true, ref: 'Project' },
         creator: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
         assignee: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
-        status: { type: String, required: true, default: 'new' },
+        status: { type: String, enum: ['não iniciada', 'em andamento', 'concluído'], required: true, default: 'não iniciada' },
         createdAt: { type: Date, required: true, default: Date.now },
         updatedAt: { type: Date, required: true, default: Date.now },
         resolutionDate: { type: Date },

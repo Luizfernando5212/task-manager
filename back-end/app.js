@@ -56,6 +56,9 @@ app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/message', messagesRouter);
 app.use('/comment', commentsRouter);
+app.use('/group', groupRouter);
+app.use('/project', projectRouter);
+app.use('/task', taskRouter);
 
 app.get('/room', async (req, res) => {
   let room = await Room.create({ roomId: 1 });
