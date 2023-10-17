@@ -2,10 +2,16 @@ require('dotenv').config();
 let express = require('express');
 let cookieParser = require('cookie-parser');
 let cors = require('cors');
+const cookieSession = require('cookie-session');
+
 // let bodyParser = require('body-parser');
 let path = require('path');
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 const conn = require('./connection/db');
+const auth = require('./authentication/auth');
+
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
@@ -43,6 +49,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+  name: 'session',
+  secret: JWT_SECRET,
+  maxAge: 0.2 * 60 * 60 * 1000 // 24 horas em milissegundos
+}))
 app.use(cors());
 
 // passing socket to router

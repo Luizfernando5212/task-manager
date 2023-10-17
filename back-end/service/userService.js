@@ -16,27 +16,29 @@ oAuth2Client.setCredentials({ refresh_token: refreshToken });
 
 require('dotenv').config();
 
-// exports.verifyUser = async (req, res) => {
-//     const { username, password } = req.body;
+exports.verifyUser = async (req, res) => {
+    const { username, password } = req.body;
 
-//     const alg = { algorithm: 'HS256' };
+    const alg = { algorithm: 'HS256' };
 
-//     var message = 'Invalid User/password.';
-//     const user = await User.findOne({ username: username });
+    var message = 'Invalid User/password.';
+    const user = await User.findOne({ username: username });
 
-//     try {
-//         console.log(password)
-//         if (await user.comparePassword(password)) {
-//             const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, alg);
-//             req.session.token = token
-//             res.json({ token });
-//         } else {
-//             res.status(401).json({ message: message })
-//         }
-//     } catch (err) {
-//         res.status(401).json()
-//     }
-// }
+    console.log(user.password);
+
+    try {
+        if (await user.comparePassword(password)) {
+            const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, alg);
+                        
+            req.session.token = token
+            res.json({ token });
+        } else {
+            res.status(401).json({ message: message })
+        }
+    } catch (err) {
+        res.status(401).json()
+    }
+}
 
 exports.getUserById = async (req, res) => {
     // const phone = req.body;
@@ -77,28 +79,40 @@ exports.getChannelsByUserId = async (req, res) => {
 }
 
 exports.newUser = async (req, res) => {
-    try {
-        if (req.body.password && req.body.username && req.body.phone && req.body.name) {
-            const { username, password, phone, name } = req.body;
-            var user = new User({
-                username: username,
-                password: password,
-                phone: phone,
-                name: name
-            })
-            const response = await user.save();
-            res.json(response);
-        } else {
-            const { email, name, role } = req.body;
-            var user = new User({
-                name: name,
-                email: email,
-                role: role
-            })
+    try {   
+        let user = new User({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            name: req.body.name,
+            role: req.body.role
+        });
 
-            const response = await user.save();
-            res.json(response);
-        }
+        const response = await user.save();
+        res.json(response);
+
+
+        // if (req.body.password && req.body.username && req.body.phone && req.body.name) {
+        //     const { username, password, phone, name } = req.body;
+        //     let user = new User({
+        //         username: username,
+        //         password: password,
+        //         phone: phone,
+        //         name: name
+        //     })
+        //     const response = await user.save();
+        //     res.json(response);
+        // } else {
+        //     const { email, name, role } = req.body;
+        //     let user = new User({
+        //         name: name,
+        //         email: email,
+        //         role: role
+        //     })
+
+        //     const response = await user.save();
+        //     res.json(response);
+        // }
     } catch (err) {
         console.log(err);
     }

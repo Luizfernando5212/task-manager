@@ -28,7 +28,10 @@ const userController = {
     },
     oauth: async (req, res) => {
         service.oauth(req, res);
-    }
+    },
+    login: async (req, res) => {
+        service.verifyUser(req, res);
+    },
 
 }
 
