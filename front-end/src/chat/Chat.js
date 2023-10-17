@@ -21,7 +21,7 @@ const Chat = (props) => {
                 'Content-Type': 'application/json'
             }
         };
-        let channels = await fetch(`http://localhost:3000/user/channels/${id}`, options);
+        let channels = await fetch(`http://localhost:3000/user/${id}/channels`, options);
         let data = await channels.json();
         // console.log(data)
         if(Array.isArray(data))
@@ -45,10 +45,10 @@ const Chat = (props) => {
             console.log('connected with the back end');
         };
         socket.on('connection', handleConnection);
-        return () => {
-            socket.off('connection', handleConnection);
-            socket.disconnect()
-        };
+        // return () => {
+        //     socket.off('connection', handleConnection);
+        //     socket.disconnect()
+        // };
     }, [])
 
     useEffect(() => {
@@ -120,9 +120,21 @@ const Chat = (props) => {
     }
 
     const handleInput = e => {
+        console.log(typeof e.target.value)
+        console.log(e.target.value.length)
+        if (id) {
+            socket.emit('leaveRoom', id);
+            if(e.target.value.length > 0) {
+                console.log(e.target.value)
+                socket.emit('joinRoom', e.target.value);
+                console.log('joining room')
+            }
+        } else {
+            console.log(e.target.value)
+            socket.emit('joinRoom', e.target.value);
+            console.log('joining room')
+        }
         setId(e.target.value);
-        console.log(e.target.value)
-        socket.emit('joinRoom', e.target.value);
     };
 
     return (
