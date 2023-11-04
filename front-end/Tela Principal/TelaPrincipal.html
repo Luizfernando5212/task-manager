@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="TelaPrincipal.css">
+</head>
+<body>
+    <div id="div1">
+        <img src="logo-athena.svg" alt="Description of the image">
+        <img src="athena-descrição.svg" alt="Description of the image">
+        <ul>
+            <li>
+                <a href="#">
+                    <img src="Projetos.png" alt="">
+                    Projetos
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Envelope.png" alt="">
+                    Chat
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Cadastro.png" alt="">
+                    Cadastro
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="sair.png" alt="">
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="div2">This is div 2</div>
+    <script>
+        // Assume that userName is the variable you got from the backend
+        let userName = "Erick"; // Replace this with the actual value from the backend
+
+        // Get the div2 element
+        let div2 = document.getElementById("div2");
+
+        // Set the text content of div2
+        div2.textContent = `${userName}, bem vindo ao Athena Project Manager`;
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="TelaProjetos.css">
+</head>
+<body>
+    <div id="div1">
+        <img src="logo-athena.svg" alt="Description of the image">
+        <img src="athena-descrição.svg" alt="Description of the image">
+        <ul>
+            <li>
+                <a href="#">
+                    <img src="Projetos.png" alt="">
+                    Projetos
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Envelope.png" alt="">
+                    Chat
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Cadastro.png" alt="">
+                    Cadastro
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="sair.png" alt="">
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="div2">
+        <h2>Projetos</h2>
+        <a href="TelaPrincipal.html">
+            <img src="voltar.png" alt="Voltar" class="back-button">
+        </a>
+        <br></br>
+        <button id="insertProject">Inserir Projeto</button>
+        <div id="projectList">
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3 class="modal-title">Preencha as informações abaixo para inserir um novo projeto</h3>
+          <form id="projectForm">
+            <label for="name">Nome:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <br></br>
+            <label for="description">Descrição:</label><br>
+            <textarea id="description" name="description" rows="4" cols="50"></textarea>
+            <br></br>
+            <label for="leader">Líder:</label><br>
+            <select id="leader" name="leader">
+                <option value="">Selecione um líder</option>
+            </select><br>
+            <br></br>
+            <label for="department">Departamento:</label><br>
+            <select id="department" name="department">
+                <option value="">Selecione um departamento</option>
+            </select><br>
+            <br></br>
+            <div class="submit-button">
+                <input type="submit" value="Inserir Projeto">
+            </div>
+          </form>
+        </div>
+      </div>
+
+    
+
+      <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("insertProject");
+        var span = document.getElementsByClassName("close")[0];
+        var form = document.getElementById("projectForm");
+        var projectList = document.getElementById("projectList");
+    
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+    
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+    form.onsubmit = function(e) {
+    e.preventDefault();
+
+    var name = document.getElementById("name").value;
+    var description = document.getElementById("description").value;
+    var leader = document.getElementById("leader").value;
+    var department = document.getElementById("department").value;
+
+    var projectDiv = document.createElement("div");
+    projectDiv.className = "project"; // Add a class to the div
+
+    projectDiv.innerHTML = "<div class='project-info'>" +
+                       "<h3>" + name + "</h3>" +
+                       "<p class='description'><strong>Descrição: </strong>" + description + "</p>" +
+                       "<p class='leader'><strong>Líder: </strong>" + leader + "</p>" +
+                       "<p class='department'><strong>Departamento: </strong>" + department + "</p>" +
+                       "</div>" +
+                       "<div class='project-icons'>" +
+                       "<img src='editar.png' class='edit-icon'>" +
+                       "<img src='excluir.png' class='delete-icon'>" +
+                       "</div>";
+    
+
+    var deleteIcon = projectDiv.querySelector('.delete-icon');
+
+    deleteIcon.addEventListener('click', function() {
+    var confirmDelete = confirm("Você realmente deseja excluir este projeto?");
+    if (confirmDelete) {
+        projectList.removeChild(projectDiv);
+    }
+    
+});
+
+projectList.appendChild(projectDiv);
+
+// Clear the form fields
+document.getElementById("name").value = "";
+document.getElementById("description").value = "";
+document.getElementById("leader").value = "";
+document.getElementById("department").value = "";
+
+modal.style.display = "none";
+
+
+}
+</script>
+
+</body>
+</html>

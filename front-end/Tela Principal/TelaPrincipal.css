@@ -1,0 +1,71 @@
+body {
+    background-color: #d3d3d3; /* Same color as div1 */
+    font-family: Arial, sans-serif; /* Apply the font to the entire website */
+}
+
+#div1 {
+    width: 10%;
+    float: left;
+    background-color: #d3d3d3;
+    color: #808080;
+}
+
+#div1 ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#div1 ul li {
+    display: block;
+    margin-bottom: 10px; /* Add separation between the buttons */
+}
+
+#div1 ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #808080;
+    color: #f0f0f0;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border-radius: 15px; /* Make the buttons more rounded */
+    transition: transform 0.3s ease-in-out;
+    font-size: 20px;
+}
+
+#div1 ul li a:hover {
+    background-color: #696969;
+    transform: scale(1.1);
+}
+
+#div1 img {
+    max-width: 100%;
+    height: auto;
+}
+
+#div1 ul li a img {
+    float: left;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#div2 {
+    width: 88%;
+    float: right;
+    background-color: #a9a9a9;
+    color: #ffffff;
+    font-size: 50px; /* Increase the font size */
+    text-align: center;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    #div1, #div2 {
+        width: 100%;
+        float: none;
+    }
+    #div1 ul li a {
+        font-size: 24px;
+        padding: 15px;
+    }
+}
