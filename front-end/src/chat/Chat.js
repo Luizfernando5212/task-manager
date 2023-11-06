@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import ChannelList from './ChannelList';
-import './chat.scss';
+// import './chat.scss';
+import '../css/chat.css';
+import '../css/styles_layout.css'
 import MessagesPanel from './MessagesPanel';
 import socketClient from "socket.io-client";
+import { useNavigate } from 'react-router-dom';
 const SERVER = "http://127.0.0.1:8080";
 const socket = socketClient(SERVER);
 
 const Chat = (props) => {
-    const [ channels, setChannels ] = useState([]);
-    const [ channel, setChannel ] = useState({});
-    const [ id, setId ] = useState('');
+    const { user } = props;
+    const navigate = useNavigate();
+    const [channels, setChannels] = useState([]);
+    const [channel, setChannel] = useState({});
+    const [id, setId] = useState('');
     // const [ roomId, setRoomId ] = useState('');
     const [, setState] = useState(false);
 
-    const loadChannels = async () => {
+    const loadChannels = async (id) => {
         // let list = [];
         let options = {
             method: 'GET',
@@ -24,14 +29,14 @@ const Chat = (props) => {
         let channels = await fetch(`http://localhost:3000/user/${id}/channels`, options);
         let data = await channels.json();
         // console.log(data)
-        if(Array.isArray(data))
+        if (Array.isArray(data))
             setChannels(data);
         else
             setChannels([]);
     }
 
     useEffect(() => {
-        socket.on('message', function(message) {
+        socket.on('message', function (message) {
             handleMessageReceived(message, channel);
         });
 
@@ -49,17 +54,25 @@ const Chat = (props) => {
         //     socket.off('connection', handleConnection);
         //     socket.disconnect()
         // };
+        // console.log(user)
+        if (user) {
+            if (Object.keys(user).length === 0) {
+                console.log('Usuário não logado')
+                navigate('/login');
+            } else {
+                document.title = 'Dashboard';
+                loadChannels(user._id);
+
+                if (user._id) {
+                    socket.emit('joinRoom', user._id);
+                }
+            }
+        }
+
     }, [])
 
-    useEffect(() => {
-        if(id)
-            loadChannels();
-    }, [id]);
-
     const handleMessageReceived = async (data, currentChannel) => {
-        // console.log(data)
-        // console.log(currentChannel)
-        // console.log(data.sender)
+        console.log(data.message)
         if (data.sender === currentChannel._id || data.receiver === currentChannel._id) {
             setChannel(prevChannel => ({
                 ...prevChannel,
@@ -68,10 +81,9 @@ const Chat = (props) => {
         } else {
             console.log(`Mensagem do ${data.sender}`)
         }
-        // console.log(channel)
         setState(prevState => !prevState);
 
-    }    
+    }
 
     const handleChannelSelect = async channelId => {
         console.log(channel);
@@ -89,22 +101,20 @@ const Chat = (props) => {
             return c._id === channelId;
         });
         // let room = await fetch
-        console.log(id)
-        let messages = await fetch(`http://localhost:3000/message/${id}/${localChannel._id}`, options);
+        console.log(user._id)
+        let messages = await fetch(`http://localhost:3000/message/${user._id}/${localChannel._id}`, options);
         let data = await messages.json();
+        console.log(data);
         localChannel.messages = data;
         setChannel(localChannel);
         socket.emit('joinRoom', localChannel._id);
-
-        // socket.emit('channel-join', id, ack => {
-        // });
     }
 
     const handleSendMessage = async (channel_id, text) => {
 
         let message = {
-            sender: id,
-            receiver: channel_id,   
+            sender: user._id,
+            receiver: channel_id,
             message: text,
         }
 
@@ -118,115 +128,20 @@ const Chat = (props) => {
         /* const response = */ await fetch('http://localhost:3000/message', options);
         // socket.emit('send-message', { channel_id, text, sender: socket.id, id: Date.now() });
     }
-
-    const handleInput = e => {
-        console.log(typeof e.target.value)
-        console.log(e.target.value.length)
-        if (id) {
-            socket.emit('leaveRoom', id);
-            if(e.target.value.length > 0) {
-                console.log(e.target.value)
-                socket.emit('joinRoom', e.target.value);
-                console.log('joining room')
-            }
-        } else {
-            console.log(e.target.value)
-            socket.emit('joinRoom', e.target.value);
-            console.log('joining room')
-        }
-        setId(e.target.value);
-    };
-
+    console.log(channel)
     return (
-        <div className='chat-app'>
-            <input type="text" onChange={handleInput} value={id} />
-            <ChannelList channels={channels} onSelectChannel={handleChannelSelect} />
-            <MessagesPanel onSendMessage={handleSendMessage} channel={channel} />
-        </div>
+        <main className='main'>
+            <div className='div-main'>
+                <div className='chat-container'>
+                    {/* <input type="text" onChange={handleInput} value={id} /> */}
+                    <ChannelList channels={channels} onSelectChannel={handleChannelSelect} />
+                    {Object.keys(channel).length !== 0 ? <MessagesPanel user={channel} onSendMessage={handleSendMessage} channel={channel} /> : <div className='chat-header'>
+                        <h2>{`Select a channel`}</h2>
+                    </div>}
+                </div>
+            </div>
+        </main>
     );
 }
 
 export default Chat;
-
-// export class Chat extends React.Component {
-
-//     state = {
-//         channels: null,
-//         socket: null,
-//         channel: null
-//     }
-//     socket;
-//     componentDidMount() {
-//         this.loadChannels();
-//         this.configureSocket();
-//     }
-
-//     configureSocket = () => {
-//         var socket = socketClient(SERVER);
-//         socket.on('connection', () => {
-//             if (this.state.channel) {
-//                 this.handleChannelSelect(this.state.channel.id);
-//             }
-//         });
-//         socket.on('channel', channel => {
-            
-//             let channels = this.state.channels;
-//             channels.forEach(c => {
-//                 if (c.id === channel.id) {
-//                     c.participants = channel.participants;
-//                 }
-//             });
-//             this.setState({ channels });
-//         });
-//         socket.on('message', message => {
-            
-//             let channels = this.state.channels
-//             channels.forEach(c => {
-//                 if (c.id === message.channel_id) {
-//                     if (!c.messages) {
-//                         c.messages = [message];
-//                     } else {
-//                         c.messages.push(message);
-//                     }
-//                 }
-//             });
-//             this.setState({ channels });
-//         });
-//         this.socket = socket;
-//     }
-
-//     loadChannels = async () => {
-//         fetch('http://localhost:8080/getChannels').then(async response => {
-//             let data = await response.json();
-//             this.setState({ channels: data.channels });
-//         })
-//     }
-
-//     handleChannelSelect = id => {
-//         let channel = this.state.channels.find(c => {
-//             return c.id === id;
-//         });
-//         this.setState({ channel });
-//         this.socket.emit('channel-join', id, ack => {
-//         });
-//     }
-
-//     handleSendMessage = (channel_id, text) => {
-//         this.socket.emit('send-message', { channel_id, text, senderName: this.socket.id, id: Date.now() });
-//     }
-
-//     handleInput = e => {
-//         this.setState({ input_value: e.target.value });
-//     }
-
-//     render() {
-
-//         return (
-//             <div className='chat-app'>
-//                 {/* <input type="text" onChange={this.handleInput} value={this.state.input_value} />     */}
-//                 <ChannelList channels={this.state.channels} onSelectChannel={this.handleChannelSelect} />
-//                 <MessagesPanel onSendMessage={this.handleSendMessage} channel={this.state.channel} />
-//             </div>
-//         );
-//     }
-// }

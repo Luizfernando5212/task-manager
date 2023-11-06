@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Message from './Message';
 
 const MessagesPanel = (props) => {
-    const [ message, setMessage ] = useState('');
+    const [message, setMessage] = useState('');
 
     const send = () => {
         if (message && message !== '') {
@@ -18,19 +18,41 @@ const MessagesPanel = (props) => {
     let list = <div className="no-content-message">There is no messages to show</div>;
 
     if (props.channel && props.channel.messages) {
-        list = props.channel.messages.map(m => <Message key={m.id} id={m.sender} senderName={m.sender} text={m.message} />);
+        list = props.channel.messages.map(m => {
+            console.log(props.channel.name);
+            console.log(m.sender.name);
+            return (
+                <Message
+                    key={m.id}
+                    id={m.sender}
+                    senderName={m.sender}
+                    text={m.message}
+                    time={m.createdAt} 
+                    messageType={m.sender === props.channel.name ? 'received' : 'sent'}/>)
+        })
     }
 
     // console.log(list)
 
     return (
 
-        <div className='messages-panel'>
-            <div className="meesages-list">{list}</div>
+        <div className='chat'>
+            <div className='chat-header'>
+                <h2>{`Chat com ${props.channel.name}`}</h2>
+            </div>
+            <div className="meesage-list">{list}</div>
             {props.channel &&
-                <div className="messages-input">
-                    <input type="text" onChange={handleInput} value={message} />
-                    <button onClick={send}>Send</button>
+                <div className="message-input">
+                    <input
+                        id='message-text'
+                        type="text"
+                        placeholder='Digite sua mensagem...'
+                        onChange={handleInput}
+                        value={message} />
+                    <button
+                        class="button-chat"
+                        id="send-button"
+                        onClick={send}>Send</button>
                 </div>
             }
         </div>

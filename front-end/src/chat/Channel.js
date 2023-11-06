@@ -8,27 +8,17 @@ const Channel = (props) => {
     }
 
     return (
-        <div className='channel-item' onClick={click}>
-            <div>{props.name}</div>
-            {/* <span>{props.participants}</span> */}
-        </div>
+        <li><button
+            class="button-chat"
+            data-user={props.name}
+            onClick={click}>{props.name}</button>
+        </li>
+
+        // <div className='channel-item' onClick={click}>
+        //     <div>{props.name}</div>
+        //     {/* <span>{props.participants}</span> */}
+        // </div>
     );
 };
 
 export default Channel;
-
-// export class Channel extends React.Component {
-
-//     click = () => {
-//         this.props.onClick(this.props.id);
-//     }
-
-//     render() {
-//         return (
-//             <div className='channel-item' onClick={this.click}>
-//                 <div>{this.props.name}</div>
-//                 <span>{this.props.participants}</span>
-//             </div>
-//         )
-//     }
-// }

@@ -1,0 +1,226 @@
+body {
+    background-color: #d3d3d3; /* Same color as div1 */
+    font-family: Arial, sans-serif; /* Apply the font to the entire website */
+}
+
+#div1 {
+    width: 10%;
+    float: left;
+    background-color: #d3d3d3;
+    color: #808080;
+}
+
+#div1 ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#div1 ul li {
+    display: block;
+    margin-bottom: 10px; /* Add separation between the buttons */
+}
+
+#div1 ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #808080;
+    color: #f0f0f0;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border-radius: 15px; /* Make the buttons more rounded */
+    transition: transform 0.3s ease-in-out;
+    font-size: 20px;
+}
+
+#div1 ul li a:hover {
+    background-color: #696969;
+    transform: scale(1.1);
+}
+
+#div1 img {
+    max-width: 100%;
+    height: auto;
+}
+
+#div1 ul li a img {
+    float: left;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#div2 {
+    width: 88%;
+    float: right;
+    background-color: #a9a9a9;
+    color: #ffffff;
+    font-size: 50px; /* Increase the font size */
+    text-align: center;
+    position: relative;
+    border-radius: 10px;
+}
+
+.back-button {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    float: left;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#projectList {
+    width: 100%;
+    height: 100%;
+}
+
+#insertProject {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px 20px;
+    padding-left: 40px; /* Make room for the image */
+    background-color: #808080; /* Same color as the menu */
+    background-image: url('sinal-de-adicao.png'); /* Add the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: 10px center; /* Position the image 10px from the left and vertically centered */
+    background-size: 20px; /* Adjust the size of the image */
+    color: #f0f0f0; /* Same color as the menu text */
+    border: none;
+    border-radius: 15px; /* Same border radius as the menu items */
+    font-size: 20px; /* Same font size as the menu items */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#insertProject:hover {
+    background-color: #606060; /* Darken the background color when hovering */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #f0f0f0; /* Same color as the site background */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Decreased width */
+    border-radius: 15px; /* Same border radius as the site elements */
+    font-size: 20px; /* Same font size as the site text */
+}
+
+.modal-title {
+    text-align: center;
+}
+
+.submit-button {
+    text-align: right;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.project {
+    color: #000;
+    background-color: #f0f0f0; /* Same color as the site background */
+    margin-bottom: 20px; /* Space between project blocks */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 15px; /* Same border radius as the site elements */
+    font-size: 14px; /* Reduced font size */
+    display: flex; /* Display the information side by side */
+    justify-content: space-between; /* Distribute the items evenly */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.project-info {
+    /* This will take up the remaining space in the .project div, after accounting for the .project-icons div */
+    flex-grow: 1;
+
+    /* This will align the text to the left */
+    text-align: left;
+
+    /* This will add some space between the text and the .project-icons div */
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-info .description, .project-info .leader, .project-info .department {
+    width: 30%; /* Adjust as needed */
+    margin-right: 10px; /* Adjust as needed */
+}
+
+.project h3 {
+    margin-bottom: 10px;
+}
+
+.project-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.project .description,
+.project .leader,
+.project .department {
+    margin-bottom: 5px;
+}
+
+.project-icons {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center; /* This vertically centers the icons */
+    padding-right: 10px;
+    width: 20%;
+    justify-content: flex-end;
+}
+
+.edit-icon, .delete-icon {
+    
+    width: 40px; /* Adjust as needed */
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 600px) {
+    #div1, #div2 {
+        width: 100%;
+        float: none;
+    }
+    #div1 ul li a {
+        font-size: 24px;
+        padding: 15px;
+    }
+}
