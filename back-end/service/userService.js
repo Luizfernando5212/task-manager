@@ -6,7 +6,7 @@ const { OAuth2Client } = require('google-auth-library');
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 let REDIRECT_URI = process.env.REDIRECT_URI;
-let refreshToken = '1//0hhpn3xUN7MiiCgYIARAAGBESNwF-L9IrFz12wlvpcR-MWOoJ3AJqfbQ7Zybt0reNzinJc_jAxqNmXbs5dMeEwmLeQ1MebQQm1-E';  // Obtido após a autorização
+let refreshToken = process.env.REFRESH_TOKEN;  // Obtido após a autorização
 let accessToken = process.env.ACCESS_TOKEN;
 let expiryDate;
 
@@ -24,19 +24,19 @@ exports.verifyUser = async (req, res) => {
     var message = 'Invalid User/password.';
     const user = await User.findOne({ username: username });
 
-    console.log(user.password);
-
-    try {
-        if (await user.comparePassword(password)) {
-            const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, alg);
-                        
-            req.session.token = token
-            res.json({ token });
-        } else {
-            res.status(401).json({ message: message })
+    if (user) {
+        try {
+            if (await user.comparePassword(password)) {
+                const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, alg);
+                res.status(200).json({ token, user });
+            } else {
+                res.status(401).json({ message: message })
+            }
+        } catch (err) {
+            res.status(401).json()
         }
-    } catch (err) {
-        res.status(401).json()
+    } else {
+        res.status(401).json({ message: message })
     }
 }
 
@@ -55,7 +55,8 @@ exports.getUserById = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     try {
-        const users = await User.find();
+
+        const users = await User.find(req.query);
         // console.log(users)
         res.json(users);
     } catch (err) {
@@ -79,7 +80,7 @@ exports.getChannelsByUserId = async (req, res) => {
 }
 
 exports.newUser = async (req, res) => {
-    try {   
+    try {
         let user = new User({
             username: req.body.username,
             password: req.body.password,
@@ -90,29 +91,6 @@ exports.newUser = async (req, res) => {
 
         const response = await user.save();
         res.json(response);
-
-
-        // if (req.body.password && req.body.username && req.body.phone && req.body.name) {
-        //     const { username, password, phone, name } = req.body;
-        //     let user = new User({
-        //         username: username,
-        //         password: password,
-        //         phone: phone,
-        //         name: name
-        //     })
-        //     const response = await user.save();
-        //     res.json(response);
-        // } else {
-        //     const { email, name, role } = req.body;
-        //     let user = new User({
-        //         name: name,
-        //         email: email,
-        //         role: role
-        //     })
-
-        //     const response = await user.save();
-        //     res.json(response);
-        // }
     } catch (err) {
         console.log(err);
     }
@@ -126,6 +104,7 @@ exports.updateUser = async (req, res) => {
         oldUser.email = req.body.email || oldUser.email;
         oldUser.name = req.body.name || oldUser.name;
         oldUser.role = req.body.role || oldUser.role;
+        oldUser.password = req.body.password || oldUser.password;
 
         console.log(oldUser);
 
@@ -161,15 +140,15 @@ exports.passwordRecoveryEmail = async (req, res) => {
 
     try {
         let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            type: "OAuth2",
-            clientId: CLIENT_ID,
-            clientSecret: CLIENT_SECRET,
-        },
-    });
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                type: "OAuth2",
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+            },
+        });
 
         transporter.sendMail({
             from: "luiz.5.2.1.luiz@gmail.com",
@@ -183,6 +162,7 @@ exports.passwordRecoveryEmail = async (req, res) => {
                 expires: expiryDate
             },
         });
+        res.status(200).json({ message: 'Email sent successfully' });
     } catch (err) {
         console.log(err);
     }
