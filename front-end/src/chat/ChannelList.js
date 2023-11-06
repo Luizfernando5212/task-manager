@@ -9,9 +9,12 @@ const ChannelList = (props) => {
     };
 
     return (
-        <div className='channel-list'>
-            {channels ? channels.map(c => <Channel key={c._id} id={c._id} name={c.name} onClick={handleClick} />)
-            : <div className="no-content-message">There is no channels to show</div>}
+        <div className='chat-sidebar'>
+            <ul>
+                {channels ? channels.map(c => c.name !== '' ? <Channel key={c._id} id={c._id} name={c.name} onClick={handleClick} /> : null)
+                    : <div className="no-content-message">There is no channels to show</div>}
+            </ul>
+
         </div>
     );
 }

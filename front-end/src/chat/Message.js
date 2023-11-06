@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Message1 = (props) => {
+const Message = (props) => {
+    const [time, setTime] = useState(new Date(props.time));
     
     return (
-        <div className='message-item'>
-            <div><b>{props.senderName}</b></div>
-            <span>{props.text}</span>
+        <div className='message '>
+            <div className={`message-content ${props.messageType}`}>
+                <p>{props.text}</p>
+                <span className='message-time'>
+                    {time.getHours() + ':' + time.getMinutes()}
+                </span>
+            </div>
         </div>
     )
 };
 
-export default Message1;
+export default Message;
 
 // export default class Message extends React.Component {
 
