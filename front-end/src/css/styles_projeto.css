@@ -1,0 +1,152 @@
+.task-button {
+    background-color: #22e0c7;
+    color: #fff;
+    border: none;
+    padding: 10px 10px;
+    width: calc(100% - 80px);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.task-button:hover {
+    background: #35cfbb;
+    transition: 0.5s;
+}
+
+
+.add-project {
+    background-color: #22e0c7;
+    color: #fff;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.add-project:hover {
+    background-color: #35cfbb;
+    transition: 0.5s;
+}
+
+.search-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+#search-input {
+  width: calc(100% - 150px) ;
+  padding: 8px;
+  border: 2px solid #22e0c760;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 60%;
+    border: 1px solid #333;
+    border-radius: 5px;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  #project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  .modal-button {
+    background-color: #22e0c7;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-right: 50px;
+    margin-bottom: 25px;
+  }
+  
+  .modal-button:hover {
+    background-color: #35cfbb;
+  }
+
+  .card {
+    background-color: #fafafa;
+    border: 3px solid #22e0c740;
+    border-radius: 30px;
+    box-shadow: 12px 12px 22px #a9b8bd;
+    padding: 16px;
+    margin-right: 10px; /* Espaço entre os cards */
+    width: 350px; /* Largura fixa em pixels */
+    box-sizing: border-box;
+    display: inline-block; /* Para exibir os cards lado a lado */
+    vertical-align: top; /* Alinhar os cards no topo */
+    margin-bottom: 10px; /* Espaço entre as linhas de cards */
+}
+
+.card h3 {
+    font-size: 18px;
+    margin: 0 0 10px; /* Adicionar margem na parte inferior para separar do resto das informações */
+    padding-bottom: 8px; /* Adicionar espaço entre o texto e a borda inferior */
+    border-bottom: 3px solid #22e0c740; /* Adicionar uma borda inferior */
+}
+
+
+table {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+table tr {
+  padding: 5px 0;
+}
+
+table td {
+    padding: 5px 0;
+}
+
+select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}

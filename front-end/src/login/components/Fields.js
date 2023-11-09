@@ -1,6 +1,4 @@
 import React from "react";
-import '../../utils/bootstrap.css'
-import '../styles_login.css'
 
 const Fields = (props) => {
     const { login, handleInputChange, fields } = props;

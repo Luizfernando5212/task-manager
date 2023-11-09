@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ChannelList from './ChannelList';
 // import './chat.scss';
-import '../css/chat.css';
-import '../css/styles_layout.css'
+import '../css/styles_chat.css';
 import MessagesPanel from './MessagesPanel';
 import socketClient from "socket.io-client";
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +14,6 @@ const Chat = (props) => {
     const [channels, setChannels] = useState([]);
     const [channel, setChannel] = useState({});
     const [id, setId] = useState('');
-    // const [ roomId, setRoomId ] = useState('');
     const [, setState] = useState(false);
 
     const loadChannels = async (id) => {
@@ -60,7 +58,6 @@ const Chat = (props) => {
                 console.log('Usuário não logado')
                 navigate('/login');
             } else {
-                document.title = 'Dashboard';
                 loadChannels(user._id);
 
                 if (user._id) {
@@ -128,7 +125,6 @@ const Chat = (props) => {
         /* const response = */ await fetch('http://localhost:3000/message', options);
         // socket.emit('send-message', { channel_id, text, sender: socket.id, id: Date.now() });
     }
-    console.log(channel)
     return (
         <main className='main'>
             <div className='div-main'>

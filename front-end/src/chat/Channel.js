@@ -9,7 +9,7 @@ const Channel = (props) => {
 
     return (
         <li><button
-            class="button-chat"
+            className="button-chat"
             data-user={props.name}
             onClick={click}>{props.name}</button>
         </li>

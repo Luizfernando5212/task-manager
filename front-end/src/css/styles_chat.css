@@ -40,7 +40,7 @@ body {
     border-radius: 24px;
     cursor: pointer;
     transition: all 0.5s;
-    width: 100px;
+    width: 150px;
 }
 
 .button-chat:hover {
@@ -102,7 +102,6 @@ body {
     justify-content: flex-end;
 }
 
-/* Altere o estilo do botão para ficar à direita */
 .message-input #send-button {
     margin-left: 10px;
 }

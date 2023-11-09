@@ -1,0 +1,207 @@
+#modal2 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-form-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card {
+    background-color: #fafafa;
+    border: 3px solid #22e0c740;
+    border-radius: 30px;
+    box-shadow: 12px 12px 22px #a9b8bd;
+    padding: 20px;
+    margin-right: 10px; /* Espaço entre os cards */
+    width: 300px; /* Largura fixa em pixels */
+    box-sizing: border-box;
+    display: inline-block; /* Para exibir os cards lado a lado */
+    vertical-align: top; /* Alinhar os cards no topo */
+    margin-bottom: 10px; /* Espaço entre as linhas de cards */
+}
+
+.card h3 {
+    font-size: 18px;
+    margin: 0 0 10px; /* Adicionar margem na parte inferior para separar do resto das informações */
+    padding-bottom: 8px; /* Adicionar espaço entre o texto e a borda inferior */
+    border-bottom: 3px solid #22e0c740; /* Adicionar uma borda inferior */
+}
+
+.card p {
+    margin: 0; /* Remove margens padrão das tags <p> */
+}
+
+table {
+    width: 100%;
+}
+
+table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table td {
+    padding: 5px 0;
+}
+
+select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 60%;
+    border: 1px solid #333;
+    border-radius: 5px;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  #project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  .modal-button {
+    background-color: #22e0c7;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-right: 50px;
+    margin-bottom: 25px;
+  }
+  
+  .modal-button:hover {
+    background-color: #35cfbb;
+    transition: 0.5s;
+  }
+
+
+.name-task-button {
+    font-size: 14px;
+}
+
+.desc-task-button {
+    font-size: 14px;
+    text-align: right;
+}
+
+.add-task-button {
+    background-color: #22e0c7;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-right: 25px;
+    margin-bottom: 25px;
+}
+
+.add-task-button:hover {
+    background-color: #35cfbb;
+    transition: 0.5s;
+}
+
+.exclude-button {
+    background-color: #db2f2f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-right: 25px;
+    margin-bottom: 25px;
+}
+
+.exclude-button:hover {
+    background-color: #a53232;
+    transition: 0.5s;
+}
+
+.search-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.button-container {
+    display: flex;
+}
+
+.search-bar {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+  }
+  
+  #search-input {
+    width: 65%;
+    padding: 8px;
+    border: 2px solid #22e0c760;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  /* Estilo para o dropdown */
+#status-filter {
+    width: 35%;
+    padding: 8px;
+    border: 2px solid #22e0c760;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+  }
+
+/* Estilo para as opções do dropdown */
+#status-filter option {
+    font-size: 16px;
+    padding: 5px;
+}
