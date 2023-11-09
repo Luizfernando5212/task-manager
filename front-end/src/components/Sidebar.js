@@ -1,15 +1,20 @@
-import React from "react";
-import '../css/styles_layout.css'
-import projetos from '../utils/img/Projetos.png'
-import chat from '../utils/img/Envelope.png'
-import cadastro from '../utils/img/Cadastro.png'
-import sair from '../utils/img/sair.png'
+import React, { useState, useEffect } from "react";
+import '../css/styles_sidebar.css'
 import logo from '../utils/img/logo-athena.svg'
-import athena from '../utils/img/athena-descrição.svg'
 import { Link } from 'react-router-dom';
 
 
 const Sidebar = (props) => {
+    const { user } = props;
+    const [screenRole, setScreenRole] = useState('');
+
+    useEffect(() => {
+        if (user) {
+            setScreenRole(user.screenRole)
+        }
+    }, [])
+
+
     return (
         <aside className="sidebar">
             <header className="sidebar-header ">
@@ -17,11 +22,21 @@ const Sidebar = (props) => {
             </header>
 
             <nav>
+                <Link to='/profile'>
+
+                    <button>
+                        <span>
+                            <i className="material-symbols-outlined"> person </i>
+                            <span>Perfil</span>
+                        </span>
+                    </button>
+                </Link>
+
                 <Link to='/projects'>
 
                     <button>
                         <span>
-                            <i className="material-symbols-outlined"> tag </i>
+                            <i className="material-symbols-outlined"> work_outline </i>
                             <span>Projetos</span>
                         </span>
                     </button>
@@ -31,18 +46,29 @@ const Sidebar = (props) => {
 
                     <button>
                         <span>
-                            <i className="material-symbols-outlined"> email </i>
+                            <i className="material-symbols-outlined"> question_answer </i>
                             <span>Chat</span>
                         </span>
                     </button>
                 </Link>
 
-                <Link to='/register'>
+
+                {/* {screenRole === 'admin' &&*/} <Link to='/register'>
 
                     <button>
                         <span>
-                            <i className="material-symbols-outlined"> person </i>
+                            <i className="material-symbols-outlined"> account_circle </i>
                             <span>Cadastro</span>
+                        </span>
+                    </button>
+                </Link>{/* } */}
+
+                <Link to='/dashboard'>
+
+                    <button>
+                        <span>
+                            <i className="material-symbols-outlined"> home </i>
+                            <span>Home</span>
                         </span>
                     </button>
                 </Link>
@@ -50,14 +76,14 @@ const Sidebar = (props) => {
                 <Link to='/logout'>
                     <button>
                         <span>
-                            <i className="material-symbols-outlined"> tag </i>
+                            <i className="material-symbols-outlined"> logout </i>
                             <span>Logout</span>
                         </span>
                     </button>
                 </Link>
 
             </nav>
-        </aside>
+        </aside >
     )
 }
 

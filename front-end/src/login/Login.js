@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../utils/bootstrap.css'
-import './styles_login.css'
+import '../css/styles_login.css'
+// import './styles_login.css'
 import img from '../utils/img/athena_nomelogo.svg';
 import Fields from './components/Fields';
 import { returnFields } from '../utils/loginFields.js';
@@ -29,6 +29,10 @@ const Login = (props) => {
     useEffect(() => {
         document.title = screen;
     }, [screen]);
+
+    useEffect(() => {
+        console.log('oi')
+    }, [])
 
     const handleSubmit = async (e) => {
 

@@ -1,0 +1,61 @@
+.user-card {
+    background-color: #fafafa;
+    border: 3px solid #22e0c740;
+    border-radius: 30px;
+    box-shadow: 12px 12px 22px #a9b8bd;
+    padding: 20px;
+    margin-right: 10px; /* Espaço entre os cards */
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 18px;
+    margin-bottom: 40px;
+}
+
+.user-card h3 {
+    font-size: 18px;
+    margin: 0 0 10px; /* Adicionar margem na parte inferior para separar do resto das informações */
+    padding-bottom: 8px; /* Adicionar espaço entre o texto e a borda inferior */
+    border-bottom: 3px solid #22e0c740; /* Adicionar uma borda inferior */
+}
+
+.user-card table {
+    width: 100%;
+}
+
+.user-card table tr td {
+    padding: 5px;
+    width: 33.33%; /* Divide igualmente a largura das três colunas */
+    text-align: left; /* Alinhe o texto à esquerda nas células */
+}
+
+.user-card table tr td:first-child {
+    font-weight: bold;
+}
+
+.new-password-button {
+    background-color: #db2f2f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; /* Centralize o botão na coluna */
+    display: block; /* Faça o botão ocupar toda a largura da célula */
+    text-align: center; /* Centralize o texto do botão */
+}
+
+.confirm-password-button {
+    background-color: #2fdb63;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; /* Centralize o botão na coluna */
+    display: block; /* Faça o botão ocupar toda a largura da célula */
+    text-align: center; /* Centralize o texto do botão */
+}
+
+.new-password-button:hover {
+    background-color: #a53232;
+}
