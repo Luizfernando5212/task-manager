@@ -40,7 +40,7 @@ const Login = (props) => {
         }
         e.preventDefault();
         let options = {
-            method: 'POST',
+            method: screen === 'updatePassword' ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
