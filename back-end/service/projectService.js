@@ -28,7 +28,7 @@ exports.getProjectById = async (req, res) => {
         let tasks = await response.json();
         
         for (let i = 0; i < tasks.length; i++) {
-            tasks[i] = taskDto(tasks[i]);
+            tasks[i] = taskDTO(tasks[i]);
         }
 
         project.tasks = tasks;
@@ -42,7 +42,7 @@ exports.getProjectById = async (req, res) => {
 
 exports.getProjects = async (req, res) => {
     try {
-        const projects = await Project.find();
+        const projects = await Project.find().populate('lead', 'name role');
         // console.log(projects)
         res.json(projects);
     } catch (err) {
@@ -75,14 +75,14 @@ exports.insertProject = async (req, res) => {
 
 exports.updateProject = async (req, res) => {
     try {
-        const project = {
-            description: req.body.description,
-            updatedAt: Date.now()
-        }
+
         const oldProject = await Project.findById(req.params.id);
 
-        oldProject.description = project.description;
-        oldProject.updatedAt = project.updatedAt;
+        oldProject.name = req.body.name || oldProject.name;
+        oldProject.description = req.body.description || oldProject.description;
+        oldProject.lead = req.body.lead || oldProject.lead;
+        oldProject.department = req.body.department || oldProject.department;
+        oldProject.updatedAt = Date.now();
 
         const response = await Project.findByIdAndUpdate(req.params.id, oldProject);
 
