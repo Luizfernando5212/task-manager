@@ -55,8 +55,12 @@ exports.getUserById = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     try {
-
-        const users = await User.find(req.query);
+        let users;
+        if (req.query.not === 'true') {
+            users = await User.find({ role: { '$ne': req.query.role } })
+        } else {
+            users = await User.find(req.query);
+        }
         // console.log(users)
         res.json(users);
     } catch (err) {
@@ -105,8 +109,7 @@ exports.updateUser = async (req, res) => {
         oldUser.name = req.body.name || oldUser.name;
         oldUser.role = req.body.role || oldUser.role;
         oldUser.password = req.body.password || oldUser.password;
-
-        console.log(oldUser);
+        oldUser.screenRole = req.body.screenRole || oldUser.screenRole;
 
         const response = await User.findByIdAndUpdate(req.params.id, oldUser);
 

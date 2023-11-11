@@ -6,7 +6,7 @@ const userController = require('../controller/userController');
 //   res.send('respond with a resource');
 // });
 
-// router.get('/:id', userController.getUserById);
+router.get('/:id', userController.getUserById);
 router.post('/login', userController.login);
 router.get('/', userController.getUsers);
 router.get('/oauth', userController.oauth);

@@ -66,14 +66,24 @@ exports.insertTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
     try {
-        const task = req.body;
 
         const oldTask = await Task.findById(req.params.id);
 
-        oldTask.timeSpent = task.timeSpent;
-        oldTask.project = task.project;
+        // console.log(oldTask)
 
-        const response = await Task.findByIdAndUpdate(req.params.id, task);
+        // console.log(req.body)
+
+        oldTask.timeSpent = req.body.timeSpent || oldTask.timeSpent;
+        oldTask.project = req.body.project || oldTask.project;
+        oldTask.name = req.body.name || oldTask.name;
+        oldTask.description = req.body.description || oldTask.description;
+        oldTask.status = req.body.status || oldTask.status;
+        oldTask.assignee = req.body.assignee || oldTask.assignee;
+        oldTask.updatedAt = Date.now();
+        
+
+        const response = await Task.findByIdAndUpdate(req.params.id, oldTask);
+        // console.log(response)
 
         res.json(response);
 
