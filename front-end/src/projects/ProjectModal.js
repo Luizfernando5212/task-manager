@@ -40,7 +40,7 @@ const ProjectModal = (props) => {
             body: JSON.stringify(project)
         };
 
-        let response = await fetch('http://localhost:3000/project', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/project', options);
         let data = await response.json();
         if (response.status === 200) {
             setProject({
@@ -66,7 +66,7 @@ const ProjectModal = (props) => {
             body: JSON.stringify(project)
         };
 
-        let response = await fetch(`http://localhost:3000/project/${id}`, options)
+        let response = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options)
 
         if (response.status === 200) {
             setProject({
@@ -89,7 +89,7 @@ const ProjectModal = (props) => {
                 'Content-Type': 'application/json'
             }
         };
-        let response = await fetch('http://localhost:3000/user?role=Manager', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/user?role=Manager', options);
         let data = await response.json();
         data.unshift({ id: 'selectLeader', name: 'Select a leader' });
         setLeadersList(data.map((lead, index) => {

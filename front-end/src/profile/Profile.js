@@ -26,7 +26,7 @@ const Cadastro = (props) => {
                 },
                 body: JSON.stringify(userUpdate)
             };
-            await fetch(`http://localhost:3000/user/${user._id}`, options)
+            await fetch(`https://task-manager-sgx9.onrender.com/user/${user._id}`, options)
 
             setIsUpdate(!isUpdate)
         }

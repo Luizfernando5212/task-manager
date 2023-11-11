@@ -31,7 +31,7 @@ const TaskModal = (props) => {
             }
         };
 
-        let response = await fetch('http://localhost:3000/user?role=Manager&not=true', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/user?role=Manager&not=true', options);
         let data = await response.json();
 
         data.unshift({ id: 'selectAssignee', name: 'Select an Assignee' });
@@ -59,7 +59,7 @@ const TaskModal = (props) => {
             body: JSON.stringify(task)
         }
 
-        let response = await fetch('http://localhost:3000/task', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/task', options);
         let data = await response.json();
 
         if (response.status === 200) {

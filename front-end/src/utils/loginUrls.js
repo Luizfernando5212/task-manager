@@ -1,6 +1,6 @@
 const urls = {
     login: {
-        url: 'http://localhost:3000/user/login',
+        url: 'https://task-manager-sgx9.onrender.com/user/login',
         tratamento: async (data, res, setError, navigate, setUser) => {
             if (res.status === 200) {
                 let user = data.user;
@@ -15,9 +15,9 @@ const urls = {
                 setError(data.message)
         }
     },
-    register: 'http://localhost:3000/user',
+    register: 'https://task-manager-sgx9.onrender.com/user',
     forgotPassword: {
-        url: 'http://localhost:3000/user/recoveryEmail',
+        url: 'https://task-manager-sgx9.onrender.com/user/recoveryEmail',
         tratamento: async (data, res, setError, navigate, setUser) => {
             if (res.status === 200) {
                 setError('');
@@ -27,8 +27,8 @@ const urls = {
                 setError('Email not found.')
          }
     },
-    updatePassword: 'http://localhost:3000/user/updatePassword',
-    updateRegister: 'http://localhost:3000/user',
+    updatePassword: 'https://task-manager-sgx9.onrender.com/user/updatePassword',
+    updateRegister: 'https://task-manager-sgx9.onrender.com/user',
 }
 
 export default urls;

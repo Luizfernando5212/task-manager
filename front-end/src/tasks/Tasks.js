@@ -77,7 +77,7 @@ const Tasks = (props) => {
             body: JSON.stringify({ status: event.target.value })
         };
 
-        let response = await fetch(`http://localhost:3000/task/${event.target.name}`, options);
+        let response = await fetch(`https://task-manager-sgx9.onrender.com/task/${event.target.name}`, options);
         let data = await response.json();
         
         if (response.status === 200) {
@@ -94,7 +94,7 @@ const Tasks = (props) => {
                 'Content-Type': 'application/json'
             }
         };
-        let project = await fetch(`http://localhost:3000/project/${id}`, options);
+        let project = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options);
         let data = await project.json();
         let tasks = {}
         for (let task of data.tasks) {
@@ -115,7 +115,7 @@ const Tasks = (props) => {
             }
         };
 
-        let response = await fetch(`http://localhost:3000/project/${id}`, options);
+        let response = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options);
         if (response.status === 200) {
             getProject();
         } else {

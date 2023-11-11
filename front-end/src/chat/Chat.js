@@ -24,7 +24,7 @@ const Chat = (props) => {
                 'Content-Type': 'application/json'
             }
         };
-        let channels = await fetch(`http://localhost:3000/user/${id}/channels`, options);
+        let channels = await fetch(`https://task-manager-sgx9.onrender.com/user/${id}/channels`, options);
         let data = await channels.json();
         // console.log(data)
         if (Array.isArray(data))
@@ -99,7 +99,7 @@ const Chat = (props) => {
         });
         // let room = await fetch
         console.log(user._id)
-        let messages = await fetch(`http://localhost:3000/message/${user._id}/${localChannel._id}`, options);
+        let messages = await fetch(`https://task-manager-sgx9.onrender.com/message/${user._id}/${localChannel._id}`, options);
         let data = await messages.json();
         console.log(data);
         localChannel.messages = data;
@@ -122,7 +122,7 @@ const Chat = (props) => {
             },
             body: JSON.stringify(message)
         };
-        /* const response = */ await fetch('http://localhost:3000/message', options);
+        /* const response = */ await fetch('https://task-manager-sgx9.onrender.com/message', options);
         // socket.emit('send-message', { channel_id, text, sender: socket.id, id: Date.now() });
     }
     return (

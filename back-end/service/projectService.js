@@ -14,7 +14,7 @@ exports.getProjectById = async (req, res) => {
 
         project = projectDTO(project);
 
-        const request = 'http://localhost:3000/task?project=' + req.params.id;
+        const request = 'https://task-manager-sgx9.onrender.com/task?project=' + req.params.id;
 
         const options = {
             method: 'GET',

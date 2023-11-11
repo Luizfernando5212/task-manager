@@ -32,7 +32,7 @@ const Dashboard = (props) => {
                         'auth-token': token
                     }
                 };
-                const response = await fetch(`http://localhost:3000/user/${userId}`, options)
+                const response = await fetch(`https://task-manager-sgx9.onrender.com/user/${userId}`, options)
                 const data = await response.json();
                 setUser(data);
             } else {

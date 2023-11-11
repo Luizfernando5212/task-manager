@@ -54,7 +54,7 @@ const Projects = (props) => {
                 'Content-Type': 'application/json'
             }
         };
-        let response = await fetch('http://localhost:3000/project', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/project', options);
         let data = await response.json();
         setProjects(data);
     }

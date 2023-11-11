@@ -28,7 +28,7 @@ const Register = (props) => {
             body: JSON.stringify(newUser)
         };
 
-        let response = await fetch('http://localhost:3000/user', options);
+        let response = await fetch('https://task-manager-sgx9.onrender.com/user', options);
         let data = await response.json();
         if (response.status === 200) {
             setNewUser({
