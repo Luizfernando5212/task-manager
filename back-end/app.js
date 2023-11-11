@@ -42,8 +42,8 @@ http.listen(8080, () => {
 const PORT = process.env.PORT || 3000
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+app.set('views', false);
+app.set('view engine', false);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -119,32 +119,5 @@ conn().then(() => {
     })
   });
 })
-
-
-// io.on('connection', (socket) => { // socket object may be used to send specific messages to the new connected client
-//   console.log('new client connected');
-//   socket.emit('connection', null);
-//   socket.on('channel-join', id => {
-//       console.log('channel join', id);
-//       STATIC_CHANNELS.forEach(c => {
-//           if (c.id === id) {
-//               if (c.sockets.indexOf(socket.id) == (-1)) {
-//                   c.sockets.push(socket.id);
-//                   c.participants++;
-//                   io.emit('channel', c);
-//               }
-//           } else {
-//               let index = c.sockets.indexOf(socket.id);
-//               if (index != (-1)) {
-//                   c.sockets.splice(index, 1);
-//                   c.participants--;
-//                   io.emit('channel', c);
-//               }
-//           }
-//       });
-
-//       return id;
-//   })
-// });
 
 module.exports = app;
