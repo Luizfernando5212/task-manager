@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../css/styles_login.css'
-// import './styles_login.css'
 import img from '../utils/img/athena_nomelogo.svg';
 import Fields from './components/Fields';
 import { returnFields } from '../utils/loginFields.js';
@@ -18,7 +17,6 @@ const Login = (props) => {
     const [screen, setScreen] = useState('login');
 
     useEffect(() => {
-        console.log(location)
         if (location === '/forgotPassword') {
             setScreen('forgotPassword');
         } else {
@@ -30,14 +28,7 @@ const Login = (props) => {
         document.title = screen;
     }, [screen]);
 
-    useEffect(() => {
-        console.log('oi')
-    }, [])
-
     const handleSubmit = async (e) => {
-
-        console.log(login)
-
         e.preventDefault();
         let options = {
             method: 'POST',
@@ -76,8 +67,7 @@ const Login = (props) => {
                                     <button type='submit' className="bt-login">LOGIN</button>
                                 </div>
                             </div>
-                            {screen === 'login' && <
-                                Link to='/forgotPassword'>
+                            {screen === 'login' && <Link to='/forgotPassword'>
                                 <p className='mt-2' style={{ fontSize: '12px' }}>
                                     Esqueceu sua senha?
                                 </p>

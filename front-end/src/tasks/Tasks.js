@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../css/styles_tarefas.css'
 import { useParams } from 'react-router-dom';
+import ProjectModal from '../projects/ProjectModal';
+import TaskModal from '../tasks/TaskModal'
 
 const Tasks = (props) => {
+    const { user } = props;
     const { id } = useParams();
     const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
     const [taskStatus, setTaskStatus] = useState({});
     const [filterStatus, setFilterStatus] = useState('todos');
     const [filterAssignee, setFilterAssignee] = useState('todos');
-
 
     useEffect(() => {
         getProject();
@@ -105,12 +107,29 @@ const Tasks = (props) => {
         setProject(data);
     }
 
+    const deleteProject = async () => {
+        let options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        let response = await fetch(`http://localhost:3000/project/${id}`, options);
+        if (response.status === 200) {
+            getProject();
+        } else {
+            alert('It was not possible to Delete the project')
+        }
+
+    }
+
     return (
         <main className="main">
 
             <div className="div-main">
 
-                <h1>Nome do Projeto</h1>
+                <h1>{project.name}</h1>
 
                 <div className="search-bar">
                     <div className="search-input-container">
@@ -131,9 +150,9 @@ const Tasks = (props) => {
                     </div>
                     <div className="button-container">
 
-                        <button className="exclude-button" id="add-task-button">Excluir Projeto</button>
-                        <button className="add-task-button" id="open-edit-modal-button">Editar Projeto</button>
-                        <button className="add-task-button" id="open-modal-button">Adicionar Tarefa</button>
+                        <button className="exclude-button" id="add-task-button" onClick={deleteProject}>Excluir Projeto</button>
+                        <button className="add-task-button" id="open-edit-modal-button" onClick={() => document.getElementById("modal").style.display = "block"}>Editar Projeto</button>
+                        <button className="add-task-button" id="open-modal-button" onClick={() => document.getElementById("modal2").style.display = "block"}>Adicionar Tarefa</button>
                     </div>
                 </div>
 
@@ -150,6 +169,8 @@ const Tasks = (props) => {
                 </ul>
 
             </div>
+            <ProjectModal funcao='Atualização' id={project.id} reload={getProject} />
+            <TaskModal user={user} project={id} reload={getProject} />
         </main>
 
     )

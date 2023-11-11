@@ -12,7 +12,6 @@ const Projects = (props) => {
         department: ''
     });
     const [projectsList, setProjectsList] = useState([]);
-    const [leadersList, setLeadersList] = useState([]);
 
     const navigate = useNavigate();
 
@@ -31,10 +30,11 @@ const Projects = (props) => {
                                 <td><strong>Descrição:</strong></td>
                                 <td>{project.description}</td>
                             </tr>
-                            <tr>
+                            {project.lead ? <tr>
                                 <td><strong>Lead:</strong></td>
                                 <td>{project.lead.name}</td>
-                            </tr>
+                            </tr> : null}
+                            
                             <tr>
                                 <td><strong>Departamento:</strong></td>
                                 <td>{project.department}</td>
@@ -59,27 +59,8 @@ const Projects = (props) => {
         setProjects(data);
     }
 
-    const getLeaders = async () => {
-        let options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        let response = await fetch('http://localhost:3000/user?role=Manager', options);
-        let data = await response.json();
-        data.unshift({ id: 'selectLeader', name: 'Select a leader' });
-        setLeadersList(data.map((lead, index) => {
-            return (
-                <option key={index} value={lead._id}>{lead.name}</option>
-            )
-        }));
-    };
-
     const openModal = async () => {
         document.getElementById("modal").style.display = "block";
-        await getLeaders();
-
     }
 
     return (
@@ -95,7 +76,7 @@ const Projects = (props) => {
                         {projectsList}
                     </ul>
                 </div>
-                <ProjectModal funcao='Cadastro' getProjects={getProjects} leadersList={leadersList} />
+                <ProjectModal funcao='Cadastro' reload={getProjects} />
             </main>
         </div>
     )
