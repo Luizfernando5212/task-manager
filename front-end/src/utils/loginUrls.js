@@ -17,17 +17,30 @@ const urls = {
     },
     register: 'https://task-manager-sgx9.onrender.com/user',
     forgotPassword: {
-        url: 'https://task-manager-sgx9.onrender.com/user/recoveryEmail',
+        url: 'http://localhost:3000/user/recoveryEmail',
         tratamento: async (data, res, setError, navigate, setUser) => {
+            setUser({ username: '', password: '' })
             if (res.status === 200) {
                 setError('');
                 navigate('/login');
             }
             else
                 setError('Email not found.')
-         }
+        }
     },
-    updatePassword: 'https://task-manager-sgx9.onrender.com/user/updatePassword',
+    updatePassword: {
+        url: `https://task-manager-sgx9.onrender.com/user/`,
+        tratamento: async (data, res, setError, navigate, setUser) => {
+            setUser({ username: '', password: '' })
+            if (res.status === 200) {
+                alert('Passowrd updated successfully!');
+                setError('');
+                navigate('/login');
+            }
+            else
+                setError('Error.')
+        }
+    },
     updateRegister: 'https://task-manager-sgx9.onrender.com/user',
 }
 

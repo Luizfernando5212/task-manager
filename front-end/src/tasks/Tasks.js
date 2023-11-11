@@ -12,9 +12,13 @@ const Tasks = (props) => {
     const [taskStatus, setTaskStatus] = useState({});
     const [filterStatus, setFilterStatus] = useState('todos');
     const [filterAssignee, setFilterAssignee] = useState('todos');
+    const [filterName, setFilterName] = useState('');
+    const [assigneeList, setAssigneeList] = useState([])
+
 
     useEffect(() => {
         getProject();
+        getAssignees();
     }, []);
 
     useEffect(() => {
@@ -52,7 +56,7 @@ const Tasks = (props) => {
                                     </tr>
                                     <tr>
                                         <td><strong>Atribuído para:</strong></td>
-                                        <td>{task.assignee.name}</td>
+                                        <td id={task.assignee._id}>{task.assignee.name}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -124,6 +128,25 @@ const Tasks = (props) => {
 
     }
 
+    const getAssignees = async () => {
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        let response = await fetch('https://task-manager-sgx9.onrender.com/user?role=Manager&not=true', options);
+        let data = await response.json();
+
+        // data.unshift({ id: 'selectAssignee', name: 'Select an Assignee' });
+        setAssigneeList(data.map((assignee, index) => {
+            return (
+                <option key={index} value={assignee._id} >{assignee.name}</option>
+            )
+        }));
+    }
+
     return (
         <main className="main">
 
@@ -133,7 +156,7 @@ const Tasks = (props) => {
 
                 <div className="search-bar">
                     <div className="search-input-container">
-                        <input type="text" id="search-input" placeholder="Pesquisar nome da Tarefa" />
+                        <input type="text" id="search-input" placeholder="Pesquisar nome da Tarefa" value={filterName} onChange={(e) => setFilterName(e.target.value)} />
                         <select id="status-filter" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                             <option value="filter" disabled >Filtrar por Status</option>
                             <option value="todos">Todos</option>
@@ -142,10 +165,9 @@ const Tasks = (props) => {
                             <option value="concluido">Concluído</option>
                         </select>
                         <select id="assignee-filter" value={filterAssignee} onChange={(e) => setFilterAssignee(e.target.value)}>
-                            <option value="" disabled >Filtrar por Atribuição</option>
+                            <option value="filter" disabled >Filtrar por Atribuição</option>
                             <option value="todos">Todos</option>
-                            <option value="em andamento">Em andamento</option>
-                            <option value="concluido">Concluído</option>
+                            {assigneeList}
                         </select>
                     </div>
                     <div className="button-container">
@@ -161,10 +183,25 @@ const Tasks = (props) => {
                         const keys = Object.keys(taskStatus);
                         if(filterStatus === 'todos') return true;
                         return taskStatus[keys[index]] === filterStatus;
-                    })
+                    })  
                     .filter((task) => { 
-                        if(filterAssignee === 'todos') return true;
-                        return task.assignee.name === filterAssignee;
+                        if(filterAssignee === 'todos' || filterAssignee === '') {
+                            return true;
+                        } else {
+                            return task.props.children[1].props.children.props.children[4].props.children[1].props.id === filterAssignee;
+                        }
+                        console.log(filterAssignee)
+                        console.log(task)
+                        
+
+                        // return task.assignee.name === filterAssignee;
+                    }).filter((task) => {
+                        const regex = new RegExp(filterName, 'i');
+                        if(filterName === ''){
+                            return true;
+                        } else {
+                            return regex.test(task.props.children[0].props.children);
+                        }
                     })}
                 </ul>
 

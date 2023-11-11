@@ -29,12 +29,13 @@ let UserSchema = new Schema(
 );
 
 UserSchema.pre('save', function (next) {
-    console.log('pre save')
     let user = this;
-    if (user.password) {
-        if (!user.isModified('password'))
-            return next();
 
+    if (user.password) {
+        if (!user.isModified('password')){
+            return next();
+        }
+            
         bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
             if (err) return next(err);
 
@@ -46,6 +47,8 @@ UserSchema.pre('save', function (next) {
             });
         });
     } else {
+        console.log('oi')
+
         user.password = '1234';
 
         if (!user.isModified('password'))

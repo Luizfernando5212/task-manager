@@ -110,7 +110,9 @@ exports.updateUser = async (req, res) => {
         oldUser.password = req.body.password || oldUser.password;
         oldUser.screenRole = req.body.screenRole || oldUser.screenRole;
 
-        const response = await User.findByIdAndUpdate(req.params.id, oldUser);
+        const response = await oldUser.save();
+
+        // const response = await User.findByIdAndUpdate(req.params.id, oldUser, { new: true, runValidators: true, context: 'query' });
 
         res.json({ message: `User ${response.name} updated successfully` });
 
@@ -135,7 +137,6 @@ exports.passwordRecoveryEmail = async (req, res) => {
     // const accessToken = response.res.data.access_token;
     // const expiry_date = response.res.data.expiry_date;
 
-
     try {
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -150,10 +151,10 @@ exports.passwordRecoveryEmail = async (req, res) => {
 
         transporter.sendMail({
             from: "luiz.5.2.1.luiz@gmail.com",
-            to: "luiz.5.2.1.luiz@gmail.com",
+            to: user.email,
             subject: "Reset Password",
             html: `<h1>Change yor password through this Link</h1>
-                <p>localhost:3030/user/${user._id}/recovery</p>`,
+                <p>https://athena-project-manager.vercel.app/updatePassword/${user._id}</p>`,
             auth: {
                 user: "luiz.5.2.1.luiz@gmail.com",
                 refreshToken: accessToken,
@@ -170,7 +171,7 @@ exports.passwordRecovery = async (req, res) => {
     try {
         let user = User.findById(req.params.id);
         user.password = '1234';
-        const response = await User.findByIdAndUpdate(req.params.id, user);
+        const response = await User.findByIdAndUpdate(req.params.id, user, { new: true, runValidators: true, context: 'query' });
         res.json({
             message: 'Password changed successfully'
         });

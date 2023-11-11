@@ -12,12 +12,15 @@ const Projects = (props) => {
         department: ''
     });
     const [projectsList, setProjectsList] = useState([]);
+    const [filter, setFilter] = useState('');
 
     const navigate = useNavigate();
 
     useEffect(() => {
         getProjects();
     }, []);
+
+    // console.log(projectsList)
 
     useEffect(() => {
         setProjectsList(projects.map((project, index) => {
@@ -34,7 +37,7 @@ const Projects = (props) => {
                                 <td><strong>Lead:</strong></td>
                                 <td>{project.lead.name}</td>
                             </tr> : null}
-                            
+
                             <tr>
                                 <td><strong>Departamento:</strong></td>
                                 <td>{project.department}</td>
@@ -69,11 +72,23 @@ const Projects = (props) => {
                 <div className="div-main">
                     <h1>Lista de Projetos</h1>
                     <div className="search-bar">
-                        <input type="text" id="search-input" placeholder="Pesquisar por projeto" />
+                        <input
+                            type="text"
+                            id="search-input"
+                            value={filter}
+                            placeholder="Pesquisar por projeto"
+                            onChange={(e) => setFilter(e.target.value)} />
                         <button className="add-project" id="add-task-button" onClick={openModal}>Adicionar Projeto</button>
                     </div>
                     <ul id="task-list">
-                        {projectsList}
+                        {projectsList.filter((project, index) => {
+                            const regex = new RegExp(filter, 'i')
+                            if (filter === 'todos' || filter === '') {
+                                return true;
+                            } else {
+                                return regex.test(project.props.children[0].props.children);
+                            }
+                        })}
                     </ul>
                 </div>
                 <ProjectModal funcao='Cadastro' reload={getProjects} />

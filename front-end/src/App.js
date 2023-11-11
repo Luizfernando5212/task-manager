@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login location='login' setUser={setUser} />} />
         <Route path="/forgotPassword" element={<Login location='/forgotPassword' setUser={setUser} />} />
-        <Route path="/updatePassword" element={<Login location='/updatePassword' setUser={setUser} />} />
+        <Route path="/updatePassword/:id" element={<Login location='/updatePassword' setUser={setUser} />} />
         <Route path="/dashboard" element={<Dashboard location='/dashboard' user={user} setUser={setUser} />} />
         <Route path="/chat" element={<Dashboard location='/chat' user={user} setUser={setUser} />} />
         <Route path="/projects" element={<Dashboard location='/projects' user={user} setUser={setUser} />} />

@@ -4,11 +4,13 @@ import img from '../utils/img/athena_nomelogo.svg';
 import Fields from './components/Fields';
 import { returnFields } from '../utils/loginFields.js';
 import loginUrls from '../utils/loginUrls.js';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 
 
 const Login = (props) => {
     const navigate = useNavigate();
+
+    const { id } = useParams();
 
     const { setUser, location } = props;
     // const [user, setUser] = useState({});
@@ -19,7 +21,10 @@ const Login = (props) => {
     useEffect(() => {
         if (location === '/forgotPassword') {
             setScreen('forgotPassword');
-        } else {
+        } else if(location === '/updatePassword') {
+            setScreen('updatePassword');
+        }
+        else {
             setScreen('login');
         }
     }, [location])
@@ -29,6 +34,10 @@ const Login = (props) => {
     }, [screen]);
 
     const handleSubmit = async (e) => {
+        if(screen === 'updatePassword' && login.password !== login.confirmPassword) {
+            setError('As senhas não coincidem');
+            return;
+        }
         e.preventDefault();
         let options = {
             method: 'POST',
@@ -37,8 +46,14 @@ const Login = (props) => {
             },
             body: JSON.stringify(login)
         };
+        let response;
+        if (screen === 'updatePassword') {
+            response = await fetch(loginUrls[screen].url + id, options);
+        } else {
+            response = await fetch(loginUrls[screen].url, options);
+        }
 
-        let response = await fetch(loginUrls[screen].url, options);
+        // let response = await fetch(loginUrls[screen].url, options);
         let data = await response.json();
         loginUrls[screen].tratamento(data, response, setError, navigate, setUser);
     }
@@ -63,7 +78,7 @@ const Login = (props) => {
                             <Fields fields={returnFields(screen)} login={login} handleInputChange={handleInputChange} />
                             <div className="form-row">
                                 <div className="col-lg-7 mb-2">
-                                    <button type='submit' className="bt-login">LOGIN</button>
+                                    <button type='submit' className="bt-login">{screen === 'login' ? 'LOGIN' : screen === 'forgotPassword' ? 'Enviar e-mail' : 'Alterar a senha'}</button>
                                 </div>
                             </div>
                             {screen === 'login' && <Link to='/forgotPassword'>

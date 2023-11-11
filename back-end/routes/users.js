@@ -9,7 +9,7 @@ const userController = require('../controller/userController');
 router.get('/:id', userController.getUserById);
 router.post('/login', userController.login);
 router.get('/', userController.getUsers);
-router.get('/oauth', userController.oauth);
+router.get('/oauth/oauth', userController.oauth);
 router.get('/:id/channels', userController.getChannelsByUserId);
 // router.get('/:id/channels', userController.getChannelsByUserId);
 router.post('/', userController.insertUser);
