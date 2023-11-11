@@ -5,6 +5,8 @@ const urls = {
             if (res.status === 200) {
                 let user = data.user;
                 user.token = data.token;
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('user', JSON.stringify(user._id));
                 setUser(user);
                 setError('');
                 navigate('/dashboard');

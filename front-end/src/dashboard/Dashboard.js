@@ -19,12 +19,28 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         // console.log(user)
-        console.log(user)
-        if (Object.keys(user).length === 0) {
-            console.log('Usuário não logado')
-            navigate('/login');
+
+        const token = localStorage.getItem('authToken');
+        const userId = JSON.parse(localStorage.getItem('user'));
+        async function getUser() {
+
+            if (token) {
+                let options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': token
+                    }
+                };
+                const response = await fetch(`http://localhost:3000/user/${userId}`, options)
+                const data = await response.json();
+                setUser(data);
+            } else {
+                navigate('/login');
+            }
         }
-    }, [user]);
+        getUser();
+    }, []);
 
     useEffect(() => {
         console.log(location)
@@ -64,14 +80,11 @@ const Dashboard = (props) => {
                 </main>
             )
         } else if (screen === 'chat') {
-            return (
-                <Chat user={user} />
-            )
+            return (<Chat user={user} />)
         } else if (screen === 'projects') {
-            return (
-                <Projects user={user} />
-            )
+            return (<Projects user={user} />)
         } else if (screen === 'logout') {
+            localStorage.removeItem('authToken');
             setUser({});
             navigate('/login');
         } else if (screen === 'register') {

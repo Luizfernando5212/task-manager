@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
 const ProjectModal = (props) => {
-    const { getProjects, leadersList } = props;
+    const { reload, id, funcao } = props;
     const [project, setProject] = useState({
         name: '',
         description: '',
         lead: 'selectLeader',
         department: 'selectDepartment'
     });
+    const [leadersList, setLeadersList] = useState([]);
+
+    useEffect(() => {
+        getLeaders();
+    }, [])
+
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -40,15 +46,58 @@ const ProjectModal = (props) => {
             setProject({
                 name: '',
                 description: '',
-                lead: '',
-                department: ''
+                lead: 'selectLeader',
+                department: 'selectDepartment'
             });
             document.getElementById('modal').style.display = "none";
-            getProjects();
+            reload();
         }
         else
-            alert('It whats not possible to create the project')
+            alert('It was not possible to create the project')
     }
+
+    const updateProject = async () => {
+        console.log(project)
+        let options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(project)
+        };
+
+        let response = await fetch(`http://localhost:3000/project/${id}`, options)
+
+        if (response.status === 200) {
+            setProject({
+                name: '',
+                description: '',
+                lead: 'selectLeader',
+                department: 'selectDepartment'
+            });
+            document.getElementById('modal').style.display = "none";
+            reload();
+        } else {
+            alert('It was not possible to Update the project')
+        }
+    }
+
+    const getLeaders = async () => {
+        let options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        let response = await fetch('http://localhost:3000/user?role=Manager', options);
+        let data = await response.json();
+        data.unshift({ id: 'selectLeader', name: 'Select a leader' });
+        setLeadersList(data.map((lead, index) => {
+            return (
+                <option key={index} value={lead._id}>{lead.name}</option>
+            )
+        }));
+    };
 
     return (
         <div id="modal" className="modal">
@@ -90,7 +139,7 @@ const ProjectModal = (props) => {
                         <option value="other">Other</option>
                     </select>
                     <br />
-                    <button className="modal-button" type="button" onClick={insertProject}>Cadastrar</button>
+                    <button className="modal-button" type="button" onClick={funcao === 'Cadastro' ? insertProject : updateProject}>Cadastrar</button>
                 </form>
             </div>
         </div>
