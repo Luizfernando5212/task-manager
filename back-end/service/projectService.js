@@ -10,8 +10,6 @@ exports.getProjectById = async (req, res) => {
     try {
         let project = await Project.findById(req.params.id);
 
-        console.log(project)
-
         project = projectDTO(project);
 
         const request = 'https://task-manager-sgx9.onrender.com/task?project=' + req.params.id;

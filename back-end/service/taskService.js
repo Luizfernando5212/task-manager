@@ -21,7 +21,6 @@ exports.getTasks = async (req, res) => {
         const tasks = await Task.find(project)
             .populate('assignee', '_id name role email')
             .populate('creator', '_id name role email');
-        // console.log(tasks)
         res.json(tasks);
     } catch (err) {
         console.log(err);
@@ -31,7 +30,6 @@ exports.getTasks = async (req, res) => {
 exports.getTasksByAssignee = async (req, res) => {
     try {
         const tasks = await Task.find({ assignee: req.params.id }).populate('assignee').populate('creator');
-        // console.log(tasks)
         res.json(tasks);
     } catch (err) {
         console.log(err);
@@ -69,10 +67,6 @@ exports.updateTask = async (req, res) => {
 
         const oldTask = await Task.findById(req.params.id);
 
-        // console.log(oldTask)
-
-        // console.log(req.body)
-
         oldTask.timeSpent = req.body.timeSpent || oldTask.timeSpent;
         oldTask.project = req.body.project || oldTask.project;
         oldTask.name = req.body.name || oldTask.name;
@@ -83,7 +77,6 @@ exports.updateTask = async (req, res) => {
         
 
         const response = await Task.findByIdAndUpdate(req.params.id, oldTask);
-        // console.log(response)
 
         res.json(response);
 
@@ -94,9 +87,7 @@ exports.updateTask = async (req, res) => {
 
 exports.deleteTask = async (req, res) => {
     try {
-        // console.log(req.params.phone);
         const response = await Task.findByIdAndDelete(req.params.id);
-        // console.log(response)
         res.json(response);
     } catch (err) {
         console.log(err);

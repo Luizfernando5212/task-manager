@@ -5,7 +5,7 @@ import '../css/styles_chat.css';
 import MessagesPanel from './MessagesPanel';
 import socketClient from "socket.io-client";
 import { useNavigate } from 'react-router-dom';
-const SERVER = "http://127.0.0.1:8080";
+const SERVER = "https://task-manager-sgx9.onrender.com";
 const socket = socketClient(SERVER);
 
 const Chat = (props) => {
@@ -26,7 +26,6 @@ const Chat = (props) => {
         };
         let channels = await fetch(`https://task-manager-sgx9.onrender.com/user/${id}/channels`, options);
         let data = await channels.json();
-        // console.log(data)
         if (Array.isArray(data))
             setChannels(data);
         else
@@ -52,10 +51,8 @@ const Chat = (props) => {
         //     socket.off('connection', handleConnection);
         //     socket.disconnect()
         // };
-        // console.log(user)
         if (user) {
             if (Object.keys(user).length === 0) {
-                console.log('Usuário não logado')
                 navigate('/login');
             } else {
                 loadChannels(user._id);
@@ -69,7 +66,6 @@ const Chat = (props) => {
     }, [])
 
     const handleMessageReceived = async (data, currentChannel) => {
-        console.log(data.message)
         if (data.sender === currentChannel._id || data.receiver === currentChannel._id) {
             setChannel(prevChannel => ({
                 ...prevChannel,
@@ -83,7 +79,6 @@ const Chat = (props) => {
     }
 
     const handleChannelSelect = async channelId => {
-        console.log(channel);
         if (channel._id) {
             socket.emit('leaveRoom', channel._id);
         }
@@ -98,10 +93,8 @@ const Chat = (props) => {
             return c._id === channelId;
         });
         // let room = await fetch
-        console.log(user._id)
         let messages = await fetch(`https://task-manager-sgx9.onrender.com/message/${user._id}/${localChannel._id}`, options);
         let data = await messages.json();
-        console.log(data);
         localChannel.messages = data;
         setChannel(localChannel);
         socket.emit('joinRoom', localChannel._id);

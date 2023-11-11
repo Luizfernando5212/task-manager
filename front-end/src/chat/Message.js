@@ -8,7 +8,7 @@ const Message = (props) => {
             <div className={`message-content ${props.messageType}`}>
                 <p>{props.text}</p>
                 <span className='message-time'>
-                    {time.getHours() + ':' + time.getMinutes()}
+                    {time.getHours().toString().padStart(2,'0') + ':' + time.getMinutes().toString().padStart(2,'0')}
                 </span>
             </div>
         </div>

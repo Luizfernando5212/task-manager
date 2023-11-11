@@ -12,7 +12,6 @@ const TaskModal = (props) => {
     })
     const [assigneeList, setAssigneeList] = useState([])
 
-    // console.log(task);
 
     useEffect(() => {
         getAssignees();
@@ -36,7 +35,6 @@ const TaskModal = (props) => {
 
         data.unshift({ id: 'selectAssignee', name: 'Select an Assignee' });
         setAssigneeList(data.map((assignee, index) => {
-            // console.log(assignee)
             return (
                 <option key={index} value={assignee._id} >{assignee.name}</option>
             )
@@ -44,8 +42,7 @@ const TaskModal = (props) => {
     }
 
     const insertTask = async () => {
-        console.log(task);
-
+      
         if (task.assignee === 'selectAssignee') {
             alert('Select an assignee');
             return;
@@ -117,7 +114,6 @@ const TaskModal = (props) => {
 
                     <label htmlFor="assignee">Atribuído para:</label>
                     <select onChange={(e) => {
-                        console.log(e.target); 
                         setTask({ ...task, assignee: e.target.value })
                     }} id="assignee" required>
                         {assigneeList}

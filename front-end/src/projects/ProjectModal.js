@@ -21,7 +21,6 @@ const ProjectModal = (props) => {
     };
 
     const insertProject = async () => {
-        console.log(project)
         if (project.lead === 'selectLeader') {
             alert('Select a leader');
             return;
@@ -57,7 +56,6 @@ const ProjectModal = (props) => {
     }
 
     const updateProject = async () => {
-        console.log(project)
         let options = {
             method: 'PUT',
             headers: {

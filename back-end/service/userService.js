@@ -61,7 +61,6 @@ exports.getUsers = async (req, res) => {
         } else {
             users = await User.find(req.query);
         }
-        // console.log(users)
         res.json(users);
     } catch (err) {
         console.log(err);
@@ -122,9 +121,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        // console.log(req.params.phone);
         const response = await User.findByIdAndDelete(req.params.id);
-        // console.log(response)
         res.json(response);
     } catch (err) {
         console.log(err);
@@ -135,11 +132,9 @@ exports.passwordRecoveryEmail = async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
 
     // const response = await oAuth2Client.getAccessToken();
-    // console.log(response);
     // const accessToken = response.res.data.access_token;
     // const expiry_date = response.res.data.expiry_date;
 
-    // console.log(accessToken)
 
     try {
         let transporter = nodemailer.createTransport({
@@ -186,11 +181,9 @@ exports.passwordRecovery = async (req, res) => {
 
 exports.oauth = async (req, res) => {
     try {
-        console.log(req.query.code)
         if (req.query.code) {
             const getToken = async (code) => {
                 const { tokens } = await oAuth2Client.getToken(code);
-                console.log(tokens)
                 accessToken = tokens.access_token;
                 refreshToken = tokens.refresh_token;
 

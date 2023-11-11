@@ -15,10 +15,8 @@ const Dashboard = (props) => {
     const [screen, setScreen] = useState('dashboard'); // ['dashboard', 'chat', 'projects', 'logout']
     const navigate = useNavigate();
 
-    // console.log(location)
 
     useEffect(() => {
-        // console.log(user)
 
         const token = localStorage.getItem('authToken');
         const userId = JSON.parse(localStorage.getItem('user'));
@@ -88,7 +86,6 @@ const Dashboard = (props) => {
             setUser({});
             navigate('/login');
         } else if (screen === 'register') {
-            console.log('oi');
             return (<Register user={user} />)
         } else if (screen === 'profile') {
             return (<Profile user={user} />);
