@@ -17,7 +17,7 @@ const urls = {
     },
     register: 'https://task-manager-sgx9.onrender.com/user',
     forgotPassword: {
-        url: 'http://localhost:3000/user/recoveryEmail',
+        url: 'https://task-manager-sgx9.onrender.com/user/recoveryEmail',
         tratamento: async (data, res, setError, navigate, setUser) => {
             setUser({ username: '', password: '' })
             if (res.status === 200) {
