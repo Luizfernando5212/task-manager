@@ -41,7 +41,6 @@ const Dashboard = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log(location)
         if (location === '/chat') {
             setScreen('chat');
             document.title = 'Chat';

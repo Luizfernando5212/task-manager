@@ -22,7 +22,4 @@ let message = {
     "__v": 0
 }
 
-console.log(Factory)
 message = new Factory(message);
-
-console.log(message);

@@ -10,24 +10,12 @@ let RoomSchema = new Schema(
 
 RoomSchema.pre('save', async function (next) {
     let r = this;
-    // console.log(r)
     let maxId = await room.findOne().sort({ roomId: -1 });
-    // console.log(maxId)
     if (maxId) {
         r.roomId = maxId.roomId + 1;
     } else {
         r.roomId = 1;
     }
-    // console.log(r)
-    // if (r.isNew) {
-    //     let maxId = await room.findOne().sort({roomId: -1});
-    //     console.log(maxId)
-    //     if (maxId) {
-    //         r.roomId = maxId + 1;
-    //     } else {
-    //         r.roomId = 1;
-    //     }
-    // }
     next();
 });
 

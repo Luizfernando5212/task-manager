@@ -47,8 +47,6 @@ UserSchema.pre('save', function (next) {
             });
         });
     } else {
-        console.log('oi')
-
         user.password = '1234';
 
         if (!user.isModified('password'))

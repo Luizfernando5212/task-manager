@@ -93,9 +93,7 @@ exports.updateProject = async (req, res) => {
 
 exports.deleteProject = async (req, res) => {
     try {
-        // console.log(req.params.phone);
         const response = await Project.findByIdAndDelete(req.params.id);
-        // console.log(response)
         res.json(response);
     } catch (err) {
         console.log(err);

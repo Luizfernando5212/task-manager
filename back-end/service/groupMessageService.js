@@ -23,7 +23,6 @@ exports.getMessagesByReceiverSender = async (req, res) => {
             }]
         }).populate('sender').populate('receiver').sort({ _id: 1 });
 
-        // console.log(messages)
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -33,7 +32,6 @@ exports.getMessagesByReceiverSender = async (req, res) => {
 exports.getMessagesByChannelId = async (req, res) => {
     try {
         const messages = await GroupMessage.find({ sender: req.params.id }).distinct('receiver').populate('receiver');
-        console.log(messages)
         res.json(messages);
     } catch (err) {
         console.log(err);
@@ -57,9 +55,7 @@ exports.insertMessage = async (req, res) => {
             receiver: req.body.receiver,
             message: req.body.message,
         }
-        console.log(message)
-        // console.log(req)
-
+      
         const response = await GroupMessage.create(message);
         const populatedRepsonse = await GroupMessage.findById(response._id).populate('sender').populate('receiver');
         req.io.emit('message', populatedRepsonse)

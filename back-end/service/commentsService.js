@@ -14,7 +14,6 @@ exports.getCommentById = async (req, res) => {
 exports.getComments = async (req, res) => {
     try {
         const comments = await Comment.find();
-        // console.log(comments)
         res.json(comments);
     } catch (err) {
         console.log(err);
@@ -24,7 +23,6 @@ exports.getComments = async (req, res) => {
 exports.getCommentsByTask = async (req, res) => {
     try {
         const comments = await Comment.find({ task: req.params.id });
-        // console.log(comments)
         res.json(comments);
     } catch (err) {
         console.log(err);
@@ -72,9 +70,7 @@ exports.updateComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
     try {
-        // console.log(req.params.phone);
         const response = await Comment.findByIdAndDelete(req.params.id);
-        // console.log(response)
         res.json(response);
     } catch (err) {
         console.log(err);

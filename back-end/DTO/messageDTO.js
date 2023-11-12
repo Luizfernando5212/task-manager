@@ -8,8 +8,6 @@
 // }
 
 function messageDtoFactory (object) {
-    console.log(object)
-
     let obj = {
         id: object._id,
         sender: object.sender.name,

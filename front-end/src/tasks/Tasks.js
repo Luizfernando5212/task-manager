@@ -189,10 +189,7 @@ const Tasks = (props) => {
                             return true;
                         } else {
                             return task.props.children[1].props.children.props.children[4].props.children[1].props.id === filterAssignee;
-                        }
-                        console.log(filterAssignee)
-                        console.log(task)
-                        
+                        } 
 
                         // return task.assignee.name === filterAssignee;
                     }).filter((task) => {
