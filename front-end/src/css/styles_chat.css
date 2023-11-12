@@ -53,6 +53,9 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    height: 600px; /* Defina a altura desejada para o chat */
+    max-height: 1000px; /* Altura máxima para ativar a barra de rolagem */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
 }
 
 .chat-header {
@@ -125,4 +128,25 @@ body {
 
 #send-button:hover {
     background-color: #35cfbb;
+}
+
+/* Barra de Rolagem */
+
+.message-list {
+    overflow-y: auto; /* Adiciona uma barra de rolagem apenas para a lista de mensagens */
+    max-height: 400px; /* Ajuste conforme necessário, deixando espaço para o cabeçalho e entrada de mensagem */
+    margin-bottom: 3px;
+}
+
+/* Adiciona estilos para a barra de rolagem */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #22e0c740;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #35cfbb60;
 }

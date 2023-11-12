@@ -56,6 +56,13 @@ const ProjectModal = (props) => {
     }
 
     const updateProject = async () => {
+        if (project.lead === 'selectLeader') {
+            setProject({ ...project, lead: '' });
+        } 
+        if (project.department === 'selectDepartment') {
+            setProject({ ...project, department: '' });
+        }
+
         let options = {
             method: 'PUT',
             headers: {
@@ -75,6 +82,7 @@ const ProjectModal = (props) => {
             });
             document.getElementById('modal').style.display = "none";
             reload();
+            getLeaders();
         } else {
             alert('It was not possible to Update the project')
         }

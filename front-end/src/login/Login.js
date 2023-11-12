@@ -55,7 +55,7 @@ const Login = (props) => {
 
         // let response = await fetch(loginUrls[screen].url, options);
         let data = await response.json();
-        loginUrls[screen].tratamento(data, response, setError, navigate, setUser);
+        loginUrls[screen].tratamento(data, response, setError, navigate, setUser, setLogin);
     }
 
     const handleInputChange = (event) => {

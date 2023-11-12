@@ -18,8 +18,8 @@ const urls = {
     register: 'https://task-manager-sgx9.onrender.com/user',
     forgotPassword: {
         url: 'https://task-manager-sgx9.onrender.com/user/recoveryEmail',
-        tratamento: async (data, res, setError, navigate, setUser) => {
-            setUser({ username: '', password: '' })
+        tratamento: async (data, res, setError, navigate, setUser, setLogin) => {
+            setLogin({ username: '', password: '' })
             if (res.status === 200) {
                 setError('');
                 navigate('/login');

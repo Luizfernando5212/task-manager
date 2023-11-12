@@ -37,7 +37,7 @@ const MessagesPanel = (props) => {
             <div className='chat-header'>
                 <h2>{`Chat com ${props.channel.name}`}</h2>
             </div>
-            <div className="meesage-list">{list}</div>
+            <div className="message-list">{list}</div>
             {props.channel &&
                 <div className="message-input">
                     <input

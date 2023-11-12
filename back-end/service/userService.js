@@ -185,6 +185,7 @@ exports.oauth = async (req, res) => {
         if (req.query.code) {
             const getToken = async (code) => {
                 const { tokens } = await oAuth2Client.getToken(code);
+                console.log(tokens);
                 accessToken = tokens.access_token;
                 refreshToken = tokens.refresh_token;
 

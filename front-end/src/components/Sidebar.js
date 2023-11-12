@@ -53,7 +53,7 @@ const Sidebar = (props) => {
                 </Link>
 
 
-                {/* {screenRole === 'admin' &&*/} <Link to='/register'>
+                 {screenRole === 'admin' && <Link to='/register'>
 
                     <button>
                         <span>
@@ -61,7 +61,7 @@ const Sidebar = (props) => {
                             <span>Cadastro</span>
                         </span>
                     </button>
-                </Link>{/* } */}
+                </Link> } 
 
                 <Link to='/dashboard'>
 

@@ -62,6 +62,7 @@ const TaskModal = (props) => {
         if (response.status === 200) {
             setTask({
                 project: project,
+                creator: user._id,
                 name: '',
                 description: '',
                 timeEstimate: '',
@@ -69,6 +70,7 @@ const TaskModal = (props) => {
             })
             document.getElementById('modal2').style.display = 'none';
             reload();
+            getAssignees();
         } else {
             alert('It was not possible to create the task');
         }

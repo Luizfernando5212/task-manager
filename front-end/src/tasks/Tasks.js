@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/styles_tarefas.css'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ProjectModal from '../projects/ProjectModal';
 import TaskModal from '../tasks/TaskModal'
 
@@ -14,6 +14,8 @@ const Tasks = (props) => {
     const [filterAssignee, setFilterAssignee] = useState('todos');
     const [filterName, setFilterName] = useState('');
     const [assigneeList, setAssigneeList] = useState([])
+
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -30,6 +32,7 @@ const Tasks = (props) => {
                     return (
                         <li className="card" key={index}>
                             <h3>{task.name}</h3>
+                            <span className="close" id="delete-task" onClick={() => deleteTask(task.id)}>&times;</span>
                             <table>
                                 <tbody>
                                     <tr>
@@ -83,7 +86,7 @@ const Tasks = (props) => {
 
         let response = await fetch(`https://task-manager-sgx9.onrender.com/task/${event.target.name}`, options);
         let data = await response.json();
-        
+
         if (response.status === 200) {
             getProject();
         }
@@ -101,10 +104,13 @@ const Tasks = (props) => {
         let project = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options);
         let data = await project.json();
         let tasks = {}
-        for (let task of data.tasks) {
-            let taskId = task.id;
-            let taskStatus = task.status;
-            tasks[taskId] = taskStatus;
+        if (Object.keys(tasks).length > 0) {
+
+            for (let task of data.tasks) {
+                let taskId = task.id;
+                let taskStatus = task.status;
+                tasks[taskId] = taskStatus;
+            }
         }
 
         setTaskStatus(tasks)
@@ -121,12 +127,30 @@ const Tasks = (props) => {
 
         let response = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options);
         if (response.status === 200) {
+            navigate('/projects');
             getProject();
         } else {
             alert('It was not possible to Delete the project')
         }
 
     }
+
+    const deleteTask = async (id) => {
+        let options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        let response = await fetch(`https://task-manager-sgx9.onrender.com/task/${id}`, options);
+        if (response.status === 200) {
+            getProject();
+        } else {
+            alert('It was not possible to Delete the task')
+        }
+    }
+
 
     const getAssignees = async () => {
         let options = {
@@ -181,25 +205,25 @@ const Tasks = (props) => {
                 <ul id="task-list">
                     {tasks.filter((task, index) => {
                         const keys = Object.keys(taskStatus);
-                        if(filterStatus === 'todos') return true;
+                        if (filterStatus === 'todos') return true;
                         return taskStatus[keys[index]] === filterStatus;
-                    })  
-                    .filter((task) => { 
-                        if(filterAssignee === 'todos' || filterAssignee === '') {
-                            return true;
-                        } else {
-                            return task.props.children[1].props.children.props.children[4].props.children[1].props.id === filterAssignee;
-                        } 
+                    })
+                        .filter((task) => {
+                            if (filterAssignee === 'todos' || filterAssignee === '') {
+                                return true;
+                            } else {
+                                return task.props.children[1].props.children.props.children[4].props.children[1].props.id === filterAssignee;
+                            }
 
-                        // return task.assignee.name === filterAssignee;
-                    }).filter((task) => {
-                        const regex = new RegExp(filterName, 'i');
-                        if(filterName === ''){
-                            return true;
-                        } else {
-                            return regex.test(task.props.children[0].props.children);
-                        }
-                    })}
+                            // return task.assignee.name === filterAssignee;
+                        }).filter((task) => {
+                            const regex = new RegExp(filterName, 'i');
+                            if (filterName === '') {
+                                return true;
+                            } else {
+                                return regex.test(task.props.children[0].props.children);
+                            }
+                        })}
                 </ul>
 
             </div>
