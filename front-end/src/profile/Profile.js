@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import '../css/styles_perfil.css'
 
 const Cadastro = (props) => {
@@ -9,6 +10,8 @@ const Cadastro = (props) => {
         email: user.email,
         name: user.name
     })
+
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -31,6 +34,8 @@ const Cadastro = (props) => {
             setIsUpdate(!isUpdate)
 
             async function getUser() {
+                const token = localStorage.getItem('authToken');
+                const userId = JSON.parse(localStorage.getItem('user'));
 
                 if (token) {
                     let options = {
