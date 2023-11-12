@@ -104,11 +104,12 @@ const Tasks = (props) => {
         let project = await fetch(`https://task-manager-sgx9.onrender.com/project/${id}`, options);
         let data = await project.json();
         let tasks = {}
-        if (Object.keys(tasks).length > 0) {
+        if (Object.keys(data.tasks).length > 0) {
 
             for (let task of data.tasks) {
                 let taskId = task.id;
                 let taskStatus = task.status;
+                console.log(taskStatus)
                 tasks[taskId] = taskStatus;
             }
         }
@@ -184,7 +185,7 @@ const Tasks = (props) => {
                         <select id="status-filter" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                             <option value="filter" disabled >Filtrar por Status</option>
                             <option value="todos">Todos</option>
-                            <option value="não iniciada">Não iniciada</option>
+                            <option value="não iniciada">Não iniciado</option>
                             <option value="em andamento">Em andamento</option>
                             <option value="concluido">Concluído</option>
                         </select>
@@ -206,13 +207,15 @@ const Tasks = (props) => {
                     {tasks.filter((task, index) => {
                         const keys = Object.keys(taskStatus);
                         if (filterStatus === 'todos') return true;
+                        const status = task.props.children[2].props.children;
+                        // console.log(filterStatus)
                         return taskStatus[keys[index]] === filterStatus;
                     })
                         .filter((task) => {
                             if (filterAssignee === 'todos' || filterAssignee === '') {
                                 return true;
                             } else {
-                                return task.props.children[1].props.children.props.children[4].props.children[1].props.id === filterAssignee;
+                                return task.props.children[2].props.children.props.children[4].props.children[1].props.id === filterAssignee;
                             }
 
                             // return task.assignee.name === filterAssignee;

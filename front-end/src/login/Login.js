@@ -35,7 +35,7 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         if(screen === 'updatePassword' && login.password !== login.confirmPassword) {
-            setError('As senhas não coincidem');
+            alert('As senhas não coincidem');
             return;
         }
         e.preventDefault();
