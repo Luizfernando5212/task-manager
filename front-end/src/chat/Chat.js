@@ -5,7 +5,7 @@ import '../css/styles_chat.css';
 import MessagesPanel from './MessagesPanel';
 import socketClient from "socket.io-client";
 import { useNavigate } from 'react-router-dom';
-const SERVER = "http://127.0.0.1:8080";
+const SERVER = "https://task-manager-sgx9.onrender.com";
 const socket = socketClient(SERVER);
 
 const Chat = (props) => {
