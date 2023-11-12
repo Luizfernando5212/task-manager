@@ -8,7 +8,7 @@ const TaskModal = (props) => {
         name: '',
         description: '',
         timeEstimate: '',
-        assignee: 'selectAssignee',
+        assignee: '',
     })
     const [assigneeList, setAssigneeList] = useState([])
 
@@ -33,7 +33,7 @@ const TaskModal = (props) => {
         let response = await fetch('https://task-manager-sgx9.onrender.com/user?role=Manager&not=true', options);
         let data = await response.json();
 
-        data.unshift({ id: 'selectAssignee', name: 'Select an Assignee' });
+        data.unshift({ id: '', name: 'Select an Assignee' });
         setAssigneeList(data.map((assignee, index) => {
             return (
                 <option key={index} value={assignee._id} >{assignee.name}</option>
@@ -43,7 +43,7 @@ const TaskModal = (props) => {
 
     const insertTask = async () => {
       
-        if (task.assignee === 'selectAssignee') {
+        if (task.assignee === '') {
             alert('Select an assignee');
             return;
         }
@@ -66,7 +66,7 @@ const TaskModal = (props) => {
                 name: '',
                 description: '',
                 timeEstimate: '',
-                assignee: 'selectAssignee',
+                assignee: '',
             })
             document.getElementById('modal2').style.display = 'none';
             reload();

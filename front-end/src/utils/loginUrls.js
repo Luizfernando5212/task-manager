@@ -30,8 +30,8 @@ const urls = {
     },
     updatePassword: {
         url: `https://task-manager-sgx9.onrender.com/user/`,
-        tratamento: async (data, res, setError, navigate, setUser) => {
-            setUser({ username: '', password: '' })
+        tratamento: async (data, res, setError, navigate, setUser, setLogin) => {
+            setLogin({ username: '', password: '' })
             if (res.status === 200) {
                 alert('Passowrd updated successfully!');
                 setError('');

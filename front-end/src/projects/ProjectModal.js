@@ -5,8 +5,8 @@ const ProjectModal = (props) => {
     const [project, setProject] = useState({
         name: '',
         description: '',
-        lead: 'selectLeader',
-        department: 'selectDepartment'
+        lead: '',
+        department: ''
     });
     const [leadersList, setLeadersList] = useState([]);
 
@@ -21,15 +21,6 @@ const ProjectModal = (props) => {
     };
 
     const insertProject = async () => {
-        if (project.lead === 'selectLeader') {
-            alert('Select a leader');
-            return;
-        }
-
-        if (project.department === 'selectDepartment') {
-            alert('selectDepartment');
-            return;
-        }
 
         let options = {
             method: 'POST',
@@ -45,24 +36,18 @@ const ProjectModal = (props) => {
             setProject({
                 name: '',
                 description: '',
-                lead: 'selectLeader',
-                department: 'selectDepartment'
+                lead: '',
+                department: ''
             });
             document.getElementById('modal').style.display = "none";
             reload();
+            getLeaders();
         }
         else
             alert('It was not possible to create the project')
     }
 
     const updateProject = async () => {
-        if (project.lead === 'selectLeader') {
-            setProject({ ...project, lead: '' });
-        } 
-        if (project.department === 'selectDepartment') {
-            setProject({ ...project, department: '' });
-        }
-
         let options = {
             method: 'PUT',
             headers: {
@@ -77,8 +62,8 @@ const ProjectModal = (props) => {
             setProject({
                 name: '',
                 description: '',
-                lead: 'selectLeader',
-                department: 'selectDepartment'
+                lead: '',
+                department: ''
             });
             document.getElementById('modal').style.display = "none";
             reload();
@@ -97,7 +82,7 @@ const ProjectModal = (props) => {
         };
         let response = await fetch('https://task-manager-sgx9.onrender.com/user?role=Manager', options);
         let data = await response.json();
-        data.unshift({ id: 'selectLeader', name: 'Select a leader' });
+        data.unshift({ id: '', name: 'Select a leader' });
         setLeadersList(data.map((lead, index) => {
             return (
                 <option key={index} value={lead._id}>{lead.name}</option>
@@ -139,7 +124,7 @@ const ProjectModal = (props) => {
 
                     <label htmlFor="department">Departamento:</label>
                     <select onChange={(e) => setProject({ ...project, department: e.target.value })} id="department" required>
-                        <option value="selectDepartment">Select a department</option>
+                        <option value="">Select a department</option>
                         <option value="development">Development</option>
                         <option value="quality assurance">Quality assurance</option>
                         <option value="other">Other</option>
