@@ -88,7 +88,7 @@ const Dashboard = (props) => {
         } else if (screen === 'register') {
             return (<Register user={user} />)
         } else if (screen === 'profile') {
-            return (<Profile user={user} />);
+            return (<Profile user={user} setUser={setUser} />);
         } else if (screen === 'tasks') {
             return (<Tasks user={user} />)
         }

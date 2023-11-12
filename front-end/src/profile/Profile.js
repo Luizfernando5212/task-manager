@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../css/styles_perfil.css'
 
 const Cadastro = (props) => {
-    const { user } = props
+    const { user, setUser } = props
     const [isUpdate, setIsUpdate] = useState(false);
     const [password, setPassword] = useState('');
     const [ userUpdate, setUserUpdate ] = useState({
@@ -29,6 +29,26 @@ const Cadastro = (props) => {
             await fetch(`https://task-manager-sgx9.onrender.com/user/${user._id}`, options)
 
             setIsUpdate(!isUpdate)
+
+            async function getUser() {
+
+                if (token) {
+                    let options = {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth-token': token
+                        }
+                    };
+                    const response = await fetch(`https://task-manager-sgx9.onrender.com/user/${userId}`, options)
+                    const data = await response.json();
+                    setUser(data);
+                } else {
+                    navigate('/login');
+                }
+            }
+            getUser();
+
         }
     }
 
